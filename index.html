@@ -7,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-/* 🍊 주황색 도트 픽셀 테마 컬러 디자인 가이드 시스템 */
 :root {
   --bg-main: #fff5f0;
   --win-bg: #ffffff;
@@ -35,137 +34,59 @@ body {
   position: relative;
 }
 
-/* ❄️ 실시간 눈 내리는 캔버스 구역 */
 #snow-canvas {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 1;
 }
 
 #desktop {
-  width: 100%;
-  height: 100vh;
-  position: relative;
-  padding-bottom: 44px;
-  z-index: 2;
+  width: 100%; height: 100vh;
+  position: relative; padding-bottom: 44px; z-index: 2;
 }
 
-/* --- 바탕화면 이모지 아이콘 배치 구역 --- */
 #desktop-icons {
-  position: absolute;
-  top: 24px;
-  left: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  z-index: 10;
+  position: absolute; top: 24px; left: 24px;
+  display: flex; flex-direction: column; gap: 20px; z-index: 10;
 }
-.dicon {
-  width: 75px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  cursor: pointer;
-}
+.dicon { width: 75px; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; }
 .dicon-box {
-  width: 54px;
-  height: 54px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 2px solid var(--point-orange-mid);
-  border-radius: var(--radius-md);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 3px 3px 0px rgba(252, 112, 48, 0.15);
-  font-size: 28px; /* 이모지 크기 알맞게 조정 */
+  width: 54px; height: 54px; background: rgba(255, 255, 255, 0.9);
+  border: 2px solid var(--point-orange-mid); border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 3px 3px 0px rgba(252, 112, 48, 0.15); font-size: 28px;
 }
 .dicon-label {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--point-orange-mid);
-  text-align: center;
-  background: rgba(255, 255, 255, 0.8);
-  padding: 1px 4px;
-  border-radius: 4px;
+  font-size: 11px; font-weight: 700; color: var(--point-orange-mid); text-align: center;
+  background: rgba(255, 255, 255, 0.8); padding: 1px 4px; border-radius: 4px;
 }
 
-/* --- OS 윈도우 프레임 워크 및 창 제어 색상 변경 --- */
 .window {
-  position: absolute;
-  display: none;
-  flex-direction: column;
-  background: var(--win-bg);
-  border-radius: var(--radius-lg);
-  box-shadow: 0 12px 30px rgba(252, 112, 48, 0.08);
-  border: 2px solid var(--point-orange-mid);
-  z-index: 100;
-  overflow: hidden;
-  transition: transform 0.15s ease, width 0.2s ease, height 0.2s ease;
+  position: absolute; display: none; flex-direction: column; background: var(--win-bg);
+  border-radius: var(--radius-lg); box-shadow: 0 12px 30px rgba(252, 112, 48, 0.08);
+  border: 2px solid var(--point-orange-mid); z-index: 100; overflow: hidden;
 }
 .window.open { display: flex; }
-.window.minimized {
-  transform: scale(0.05) translateY(500px);
-  opacity: 0;
-  pointer-events: none;
-}
+.window.minimized { transform: scale(0.05) translateY(500px); opacity: 0; pointer-events: none; }
 .win-header {
-  height: 40px;
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
-  background: var(--point-orange-light);
-  border-bottom: 2px solid var(--border-light);
-  cursor: grab;
-  position: relative;
+  height: 40px; display: flex; align-items: center; padding: 0 16px;
+  background: var(--point-orange-light); border-bottom: 2px solid var(--border-light); cursor: grab; position: relative;
 }
-.win-header:active { cursor: grabbing; }
-
-/* 🍊 Mac 버튼 주황 계열 그라데이션 커스텀 */
 .mac-buttons { display: flex; gap: 6px; position: absolute; left: 16px; }
 .mac-btn { width: 12px; height: 12px; border-radius: 50%; border: 1px solid rgba(252, 112, 48, 0.2); cursor: pointer; }
-.mac-close { background: #ff7640; } /* 진한 주황 */
-.mac-min { background: #ffa87d; }   /* 연한 주황 */
-.mac-max { background: #ffd0b8; }   /* 스킨 살구 */
-
+.mac-close { background: #ff7640; }
+.mac-min { background: #ffa87d; }
+.mac-max { background: #ffd0b8; }
 .win-title-text { margin: 0 auto; font-size: 12px; font-weight: 700; color: var(--point-orange-mid); }
 
-/* --- 기존 정렬 방식 완벽 복구 레이아웃 --- */
 .finder-toolbar {
-  height: 40px;
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
-  background: #ffffff;
-  border-bottom: 1px solid var(--border-light);
-  gap: 12px;
+  height: 40px; display: flex; align-items: center; padding: 0 16px; background: #ffffff; border-bottom: 1px solid var(--border-light); gap: 12px;
 }
-.nav-arrows { display: flex; gap: 8px; color: var(--text-muted); font-size: 13px; cursor: pointer; }
+.nav-arrows { display: flex; gap: 8px; color: var(--text-muted); font-size: 13px; }
 .path-bar-container {
-  flex: 1;
-  height: 26px;
-  background: var(--point-orange-light);
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  padding: 0 10px;
-  font-size: 11px;
-  color: var(--text-primary);
+  flex: 1; height: 26px; background: var(--point-orange-light); border-radius: 6px; display: flex; align-items: center; padding: 0 10px; font-size: 11px; color: var(--text-primary); font-weight: 500;
 }
-.search-bar {
-  width: 140px;
-  height: 26px;
-  background: var(--point-orange-light);
-  border: none;
-  border-radius: 6px;
-  padding: 0 8px;
-  font-size: 11px;
-  outline: none;
-}
+.search-bar { width: 140px; height: 26px; background: var(--point-orange-light); border: none; border-radius: 6px; padding: 0 8px; font-size: 11px; outline: none; }
 .win-container { display: flex; flex: 1; height: calc(100% - 80px); }
 .sidebar { width: 160px; background: var(--sidebar-bg); padding: 12px 6px; display: flex; flex-direction: column; gap: 2px; border-right: 1px solid var(--border-light); }
 .sidebar-group-title { font-size: 10px; font-weight: 700; color: var(--text-muted); padding: 4px 8px; margin-top: 4px; }
@@ -176,52 +97,28 @@ body {
 .content-top-menu { height: 32px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; border-bottom: 1px solid var(--border-light); background: #fafafa; }
 .content-body { flex: 1; padding: 16px; overflow-y: auto; }
 
-/* 기존 복구용 일반 그리드 시스템 */
-.grid-layout-original {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 16px;
-}
-
-/* 🖼️ 내 사진 기능 복구 전용: 1열에 정확히 3장씩 배치하는 Grid 시스템 */
-.grid-layout-photos-3col {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-
-.card-style-original {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  position: relative;
-  padding: 8px;
-  border-radius: var(--radius-md);
-}
-.card-style-original:hover { background: var(--point-orange-light); }
-.card-icon-wrap {
+/* 내 PC 메인 큰 배너 스타일 */
+.main-pc-root-banner {
   width: 100%;
-  aspect-ratio: 1;
-  max-width: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 32px;
-  overflow: hidden;
-  border-radius: var(--radius-sm);
+  height: 280px;
+  border-radius: var(--radius-md);
+  background-color: #fcfbfa;
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 16px;
+  border: 1px solid var(--border-medium);
 }
-.card-icon-wrap img { width: 100%; height: 100%; object-fit: cover; }
-.card-text-original {
-  font-size: 11px;
-  text-align: center;
-  word-break: break-all;
-  font-weight: 500;
-  color: var(--text-primary);
-}
+.main-pc-banner-editor { background: var(--point-orange-light); padding: 10px; border-radius: var(--radius-md); margin-bottom: 16px; display: none; flex-direction: column; gap: 6px; border: 1px dashed var(--point-orange-mid); }
 
-/* --- 블로그형 상세 보기 양식 --- */
+.grid-layout-original { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 16px; }
+.grid-layout-photos-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+
+.card-style-original { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; position: relative; padding: 8px; border-radius: var(--radius-md); }
+.card-style-original:hover { background: var(--point-orange-light); }
+.card-icon-wrap { width: 100%; aspect-ratio: 1; max-width: 80px; display: flex; align-items: center; justify-content: center; font-size: 32px; overflow: hidden; border-radius: var(--radius-sm); }
+.card-icon-wrap img { width: 100%; height: 100%; object-fit: cover; }
+.card-text-original { font-size: 11px; text-align: center; word-break: break-all; font-weight: 500; color: var(--text-primary); }
+
 .blog-view-frame { padding: 4px 8px; user-select: text; }
 .blog-header-section { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
 .blog-title { font-size: 20px; font-weight: 700; color: var(--point-orange-mid); }
@@ -233,43 +130,42 @@ body {
 .blog-deco-img { max-width: 100%; border-radius: var(--radius-sm); border: 1px solid var(--border-light); }
 .blog-main-content { font-size: 13px; line-height: 1.6; color: var(--text-primary); white-space: pre-wrap; margin-top: 8px; text-align: left; width: 100%; }
 
-/* --- 멀티 탭 메모장 프로토콜 --- */
-.notepad-tabs { display: flex; background: var(--point-orange-light); padding: 4px 8px 0; gap: 2px; border-bottom: 1px solid var(--border-light); }
-.notepad-tab { padding: 6px 14px; font-size: 11px; background: rgba(252, 112, 48, 0.1); border-radius: 6px 6px 0 0; cursor: pointer; color: var(--text-primary); }
-.notepad-tab.active { background: #ffffff; font-weight: 700; border: 1px solid var(--border-light); border-bottom: none; }
+/* 메모장 탭 시스템 디자인 사양 */
+.notepad-tabs { display: flex; background: var(--sidebar-bg); padding: 6px 8px 0; gap: 4px; border-bottom: 1px solid var(--border-light); overflow-x: auto; }
+.notepad-tab { display: flex; align-items: center; gap: 6px; padding: 6px 12px; font-size: 11px; background: #e6ded9; border-radius: 6px 6px 0 0; cursor: pointer; color: var(--text-primary); white-space: nowrap; }
+.notepad-tab.active { background: #ffffff; font-weight: 700; }
+.notepad-tab-del-btn { font-size: 10px; color: var(--text-muted); cursor: pointer; font-weight: bold; margin-left: 4px; }
+.notepad-tab-del-btn:hover { color: #ff5500; }
 .notepad-add-tab { padding: 6px 10px; font-size: 12px; cursor: pointer; color: var(--point-orange-mid); font-weight: bold; }
 .notepad-body-frame { flex: 1; display: flex; flex-direction: column; }
 .notepad-textarea { flex: 1; border: none; outline: none; padding: 14px; font-family: inherit; font-size: 12px; resize: none; line-height: 1.6; }
 .notepad-footer { height: 28px; background: var(--point-orange-light); border-top: 1px solid var(--border-light); display: flex; align-items: center; justify-content: space-between; padding: 0 12px; font-size: 11px; color: var(--text-muted); }
 .notepad-actions { display: flex; gap: 12px; }
 .notepad-action-btn { cursor: pointer; font-weight: 500; }
-.notepad-action-btn:hover { color: var(--point-orange-accent); }
 
-/* --- 우측 사이드 대시 가젯 배치선 --- */
 #widget-area { position: absolute; top: 24px; right: 24px; width: 220px; display: flex; flex-direction: column; gap: 12px; z-index: 50; }
 .widget-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px); border-radius: var(--radius-lg); padding: 14px; border: 2px solid var(--point-orange-mid); box-shadow: 4px 4px 0px rgba(252, 112, 48, 0.1); }
 
-/* 디데이 가젯 */
 .dday-display-banner { background: var(--point-orange-mid); border-radius: var(--radius-md); padding: 14px; color: #ffffff; text-align: center; cursor: pointer; }
 .dday-counter-big { font-size: 26px; font-weight: 700; }
 .dday-sub-title { font-size: 11px; opacity: 0.9; margin-top: 2px; }
 
-/* 타이머 가젯 */
 .timer-tab-row { display: flex; background: var(--point-orange-light); border-radius: 6px; padding: 2px; margin-bottom: 10px; }
-.timer-tab-btn { flex: 1; background: transparent; border: none; padding: 4px; font-size: 11px; font-weight: 700; color: var(--text-muted); cursor: pointer; border-radius: 4px; }
+.timer-tab-btn { flex: 1; background: transparent; border: none; padding: 6px; font-size: 11px; font-weight: 700; color: var(--text-muted); cursor: pointer; border-radius: 4px; text-align: center; }
 .timer-tab-btn.active { background: var(--point-orange-mid); color: white; }
-.timer-time-text { font-size: 34px; font-weight: 700; text-align: center; color: var(--point-orange-mid); margin: 4px 0; }
-.timer-preset-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-bottom: 10px; }
-.timer-preset-btn { background: #ffffff; border: 1px solid var(--border-medium); padding: 3px 0; font-size: 10px; border-radius: 4px; cursor: pointer; color: var(--text-primary); text-align: center; }
+.timer-time-text { font-size: 34px; font-weight: 700; text-align: center; color: var(--point-orange-mid); margin: 6px 0; }
 .timer-action-row { display: flex; gap: 6px; }
-.btn-timer-core { flex: 1; height: 26px; border: none; border-radius: var(--radius-sm); font-size: 11px; font-weight: 700; cursor: pointer; }
+.btn-timer-core { flex: 1; height: 28px; border: none; border-radius: var(--radius-sm); font-size: 11px; font-weight: 700; cursor: pointer; }
 .btn-timer-start { background: var(--point-orange-mid); color: white; }
 .btn-timer-reset { background: var(--point-orange-light); color: var(--text-primary); }
 
-/* 유튜브 플레이어 뮤직 가젯 */
+.timer-preset-btn { padding: 2px 6px; font-size: 10px; border: 1px solid var(--border-medium); background: #fff; cursor: pointer; border-radius: 4px; color: var(--text-primary); }
+.timer-preset-btn:hover { background: var(--point-orange-light); }
+
 .music-title-row { font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; color: var(--point-orange-mid); }
 .music-yt-hidden { width: 1px; height: 1px; position: absolute; opacity: 0; pointer-events: none; }
-.music-album-wrap { width: 100%; aspect-ratio: 1.5; background: var(--point-orange-light); border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 8px; border: 1px solid var(--border-light); display: flex; align-items: center; justify-content: center; font-size: 24px; }
+.music-album-wrap { width: 100%; aspect-ratio: 1.5; background: var(--point-orange-light); border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 8px; border: 1px solid var(--border-light); display: flex; align-items: center; justify-content: center; }
+.music-album-wrap img { width: 100%; height: 100%; object-fit: cover; }
 .music-info-text { font-size: 11px; font-weight: 700; margin-bottom: 6px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .music-progress-container { margin-bottom: 8px; }
 .music-bar-bg { width: 100%; height: 4px; background: var(--point-orange-light); border-radius: 2px; position: relative; }
@@ -277,63 +173,40 @@ body {
 .music-time-labels { display: flex; justify-content: space-between; font-size: 9px; color: var(--text-muted); margin-top: 2px; }
 .music-ctrl-buttons { display: flex; justify-content: center; align-items: center; gap: 16px; margin-bottom: 6px; }
 .music-btn-icon { font-size: 13px; color: var(--point-orange-mid); cursor: pointer; }
-.music-now-playing-tag { background: var(--point-orange-light); border-radius: 4px; padding: 4px; font-size: 10px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--point-orange-mid); font-weight: 500; }
+.music-admin-art-form { display: none; flex-direction: column; gap: 4px; margin-top: 6px; background: var(--point-orange-light); padding: 6px; border-radius: 4px; }
 
-/* 🍊 할 일 목록 주황색 체크박스 스타일 완벽 복구 변경 */
 .todo-widget-body { display: flex; flex-direction: column; gap: 6px; }
 .todo-input-style { width: 100%; height: 26px; background: var(--point-orange-light); border: 1px solid var(--border-light); border-radius: 6px; padding: 0 8px; font-size: 11px; outline: none; }
-.todo-item-row { display: flex; align-items: center; gap: 6px; font-size: 11px; }
-
-/* 주황색 체크박스 전용 가이드 매핑 */
+.todo-item-row { display: flex; align-items: center; gap: 6px; font-size: 11px; position: relative; }
 .todo-item-row input[type="checkbox"] {
-  appearance: none;
-  width: 14px;
-  height: 14px;
-  border: 2px solid var(--point-orange-mid);
-  border-radius: 3px;
-  background-color: #fff;
-  cursor: pointer;
-  position: relative;
+  appearance: none; width: 14px; height: 14px; border: 2px solid var(--point-orange-mid); border-radius: 3px; background-color: #fff; cursor: pointer; position: relative;
 }
-.todo-item-row input[type="checkbox"]:checked {
-  background-color: var(--point-orange-mid);
-}
-.todo-item-row input[type="checkbox"]:checked::after {
-  content: '✓';
-  position: absolute;
-  top: -3px;
-  left: 1px;
-  color: #fff;
-  font-size: 10px;
-  font-weight: bold;
-}
+.todo-item-row input[type="checkbox"]:checked { background-color: var(--point-orange-mid); }
+.todo-item-row input[type="checkbox"]:checked::after { content: '✓'; position: absolute; top: -3px; left: 1px; color: #fff; font-size: 10px; font-weight: bold; }
+.todo-del-btn { margin-left: auto; font-size: 10px; color: var(--text-muted); cursor: pointer; padding: 0 2px; }
+.todo-del-btn:hover { color: red; }
 
-/* 데이터 관리 에디터 폼 */
 .admin-field-group { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
 .admin-field-group label { font-size: 11px; font-weight: 700; color: var(--point-orange-mid); }
 .admin-box-input { width: 100%; height: 28px; border: 1px solid var(--border-medium); border-radius: 6px; padding: 0 8px; font-size: 11px; outline: none; }
 .admin-box-textarea { width: 100%; height: 65px; border: 1px solid var(--border-medium); border-radius: 6px; padding: 6px; font-size: 11px; resize: none; outline: none; font-family: inherit; }
 .admin-btn-row { display: flex; gap: 6px; margin-top: 12px; }
 .btn-field-save { flex: 1; height: 30px; background: var(--point-orange-mid); color: white; border: none; border-radius: 6px; font-size: 12px; cursor: pointer; font-weight: bold; }
-.btn-field-del { background: var(--point-orange-light); color: var(--text-primary); border: none; border-radius: 6px; padding: 0 10px; font-size: 11px; cursor: pointer; }
+.btn-field-del { background: #ff4d4d; color: white; border: none; border-radius: 6px; padding: 0 12px; font-size: 11px; cursor: pointer; }
 .admin-badge-btn { position: absolute; top: 2px; right: 2px; background: var(--point-orange-accent); color: white; border: none; font-size: 9px; padding: 1px 3px; border-radius: 3px; cursor: pointer; display: none; z-index: 10; }
 .card-style-original:hover .admin-badge-btn { display: block; }
 
-/* 시작 메뉴 윈도우 */
 #start-menu-window { position: fixed; left: 16px; bottom: 50px; width: 250px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-radius: var(--radius-lg); border: 2px solid var(--point-orange-mid); box-shadow: 0 8px 24px rgba(0,0,0,0.08); display: none; flex-direction: column; padding: 12px; z-index: 2000; }
 .start-profile-area { display: flex; align-items: center; gap: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border-light); position: relative; }
-
-/* 👤 기본 요구사항 반영: 흰색 프로필 슬롯 설정 */
-.start-profile-img-slot { width: 36px; height: 36px; border-radius: 50%; background: #ffffff; border: 1px solid var(--border-medium); overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.start-profile-img-slot { width: 36px; height: 36px; border-radius: 50%; background: #ffffff; border: 1px solid var(--border-medium); overflow: hidden; }
 .start-profile-info { display: flex; flex-direction: column; }
 .start-profile-name { font-size: 12px; font-weight: 700; color: var(--text-primary); }
-.start-profile-msg { font-size: 10px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; }
+.start-profile-msg { font-size: 10px; color: var(--text-muted); }
 .start-gear-icon { position: absolute; right: 2px; top: 10px; font-size: 14px; color: var(--point-orange-mid); cursor: pointer; }
 .start-app-section-title { font-size: 10px; font-weight: 700; color: var(--text-muted); margin: 8px 0 4px; padding-left: 4px; }
 .start-app-item { display: flex; align-items: center; gap: 8px; padding: 6px; border-radius: 6px; font-size: 11px; cursor: pointer; color: var(--text-primary); }
 .start-app-item:hover { background: var(--point-orange-light); }
 
-/* 하단 바 고정 시스템 */
 #taskbar { position: fixed; left: 0; right: 0; bottom: 0; height: 40px; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(15px); border-top: 1px solid var(--border-light); display: flex; align-items: center; padding: 0 16px; z-index: 5000; }
 #start-btn { background: var(--point-orange-mid); color: #ffffff; border: none; padding: 4px 12px; font-size: 11px; font-weight: 700; border-radius: 6px; cursor: pointer; }
 #admin-status-bar-text { margin-left: 10px; font-size: 11px; color: var(--text-muted); font-weight: bold; }
@@ -342,12 +215,10 @@ body {
 </head>
 <body>
 
-<!-- ❄️ 실시간 눈 내리는 이펙트 레이어 추가 -->
 <canvas id="snow-canvas"></canvas>
 
 <div id="desktop">
 
-  <!-- 바탕화면 이모지 대체 아이콘 팩트 및 휴지통 추가 -->
   <div id="desktop-icons">
     <div class="dicon" data-openwin="win-finder">
       <div class="dicon-box">💻</div>
@@ -363,8 +234,7 @@ body {
     </div>
   </div>
 
-  <!-- 메인 파인더 Window -->
-  <div id="win-finder" class="window" style="width: 720px; height: 500px; left: 80px; top: 40px;">
+  <div id="win-finder" class="window" style="width: 740px; height: 540px; left: 80px; top: 40px;">
     <div class="win-header">
       <div class="mac-buttons">
         <button class="mac-btn mac-close" data-winid="win-finder"></button>
@@ -375,7 +245,7 @@ body {
     </div>
     <div class="finder-toolbar">
       <div class="nav-arrows">〈 〉</div>
-      <div class="path-bar-container" id="header-path-text">내 PC</div>
+      <div class="path-bar-container" id="header-path-text">C:\내 PC</div>
       <input type="text" class="search-bar" id="finder-search-input" placeholder="검색어 입력...">
     </div>
     <div class="win-container">
@@ -401,7 +271,6 @@ body {
     </div>
   </div>
 
-  <!-- 🗑️ 독립형 휴지통 Window 신규 생성 -->
   <div id="win-trash" class="window" style="width: 420px; height: 320px; left: 140px; top: 120px;">
     <div class="win-header">
       <div class="mac-buttons">
@@ -412,15 +281,14 @@ body {
       <div class="win-title-text">휴지통</div>
     </div>
     <div class="finder-toolbar">
-      <div class="path-bar-container">휴지통 > 임시 보관소</div>
+      <div class="path-bar-container">C:\내 PC\휴지통</div>
     </div>
-    <div class="content-body" style="background: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: var(--text-muted);">
+    <div class="content-body" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: var(--text-muted);">
       <div style="font-size: 48px;">🗑️</div>
       <div style="font-size: 12px; font-weight: bold;">휴지통이 비어 있습니다.</div>
     </div>
   </div>
 
-  <!-- 블로그형 포스트 상세보기 서브 Window -->
   <div id="win-blog-detail" class="window" style="width: 580px; height: 460px; left: 160px; top: 70px;">
     <div class="win-header">
       <div class="mac-buttons">
@@ -431,15 +299,14 @@ body {
       <div class="win-title-text">포스트 보기</div>
     </div>
     <div class="finder-toolbar">
-      <div class="path-bar-container" id="blog-detail-path-text">내 PC > 상세 보기</div>
+      <div class="path-bar-container" id="blog-detail-path-text">C:\내 PC\상세보기</div>
     </div>
     <div class="content-body" style="background: #ffffff;">
       <div class="blog-view-frame" id="blog-detail-content-target"></div>
     </div>
   </div>
 
-  <!-- 멀티 탭 문서 메모장 Window -->
-  <div id="win-notepad" class="window" style="width: 460px; height: 420px; left: 220px; top: 100px;">
+  <div id="win-notepad" class="window" style="width: 500px; height: 460px; left: 220px; top: 100px;">
     <div class="win-header">
       <div class="mac-buttons">
         <button class="mac-btn mac-close" data-winid="win-notepad"></button>
@@ -449,7 +316,6 @@ body {
       <div class="win-title-text">내 문서 - 메모장</div>
     </div>
     <div class="notepad-tabs" id="notepad-tabs-bar">
-      <div class="notepad-tab active" data-tabidx="0">메모1</div>
       <div class="notepad-add-tab" id="btn-notepad-add-tab">+</div>
     </div>
     <div class="notepad-body-frame">
@@ -458,13 +324,11 @@ body {
         <span id="notepad-char-counter">0자</span>
         <div class="notepad-actions">
           <span class="notepad-action-btn" id="btn-notepad-clear-current">이 메모 비우기</span>
-          <span class="notepad-action-btn" id="btn-notepad-clear-all" style="color: red;">공백 모두 지우기</span>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- [관리자전용] 글 편집/코드 추출 모달 Window -->
   <div id="win-admin-editor" class="window" style="width: 380px; height: 450px; left: 260px; top: 60px;">
     <div class="win-header">
       <div class="mac-buttons">
@@ -496,17 +360,12 @@ body {
         <textarea class="admin-box-textarea" id="form-item-text"></textarea>
       </div>
       <div class="admin-btn-row">
-        <button class="btn-field-del" id="btn-admin-delete-action">삭제</button>
-        <button class="btn-field-save" id="btn-admin-submit-action">실시간 적용</button>
-      </div>
-      <div class="admin-field-group" style="margin-top:14px;">
-        <label>💡 코드 영구 박제용 현재 백업 텍스트</label>
-        <textarea class="admin-box-textarea" id="admin-db-dump-output" style="height:55px; font-size:9px;" readonly onclick="this.select();"></textarea>
+        <button class="btn-field-del" id="btn-admin-delete-action">완전 삭제</button>
+        <button class="btn-field-save" id="btn-admin-submit-action">수정/등록 반영</button>
       </div>
     </div>
   </div>
 
-  <!-- 범용 디데이 타겟 편집 전용 Window (일반 유저 모드 개조 완료) -->
   <div id="win-admin-dday" class="window" style="width: 300px; height: 200px; left: 300px; top: 130px;">
     <div class="win-header">
       <div class="mac-buttons">
@@ -527,7 +386,6 @@ body {
     </div>
   </div>
 
-  <!-- 우측 고정 배치 레이아웃 대시 위젯 라인 -->
   <div id="widget-area">
     <div class="widget-card" style="padding: 0; overflow: hidden;">
       <div class="dday-display-banner" id="wd-dday-trigger-box">
@@ -542,15 +400,16 @@ body {
         <button class="timer-tab-btn" data-timermode="pomo">뽀모도로</button>
       </div>
       <div class="timer-time-text" id="wd-timer-display">25:00</div>
-      <div class="timer-preset-grid">
+      
+      <div id="timer-presets-row" style="display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; margin-bottom: 10px;">
         <button class="timer-preset-btn" data-min="5">5분</button>
         <button class="timer-preset-btn" data-min="10">10분</button>
         <button class="timer-preset-btn" data-min="15">15분</button>
         <button class="timer-preset-btn" data-min="25">25분</button>
         <button class="timer-preset-btn" data-min="30">30분</button>
-        <button class="timer-preset-btn" data-min="45">45분</button>
         <button class="timer-preset-btn" data-min="60">60분</button>
       </div>
+
       <div class="timer-action-row">
         <button class="btn-timer-core btn-timer-start" id="wctrl-start">시작</button>
         <button class="btn-timer-core btn-timer-reset" id="wctrl-reset">초기화</button>
@@ -560,10 +419,12 @@ body {
     <div class="widget-card">
       <div class="music-title-row">
         <span>♪ 뮤직 플레이어</span>
-        <span style="font-size:10px; opacity:0.6;">Youtube 연동</span>
+        <span style="font-size:10px; opacity:0.6;">Youtube</span>
       </div>
       <div id="yt-audio-player-engine" class="music-yt-hidden"></div>
-      <div class="music-album-wrap"><span id="music-default-art-logo">🎵</span></div>
+      <div class="music-album-wrap" id="music-album-cover-box">
+        <span id="music-default-art-logo" style="font-size:24px;">🎵</span>
+      </div>
       <div class="music-info-text" id="music-track-title">재생 중인 곡이 없습니다</div>
       <div class="music-progress-container">
         <div class="music-bar-bg"><div class="music-bar-fill" id="music-progress-bar-fill"></div></div>
@@ -573,11 +434,14 @@ body {
         </div>
       </div>
       <div class="music-ctrl-buttons">
-        <span class="music-btn-icon" id="mctrl-prev">◀◀</span>
         <span class="music-btn-icon" id="mctrl-play" style="font-size: 16px;">▶</span>
-        <span class="music-btn-icon" id="mctrl-next">▶▶</span>
       </div>
-      <input type="text" class="todo-input-style" id="music-yt-url-input" style="margin-top:6px; font-size:10px;" placeholder="유튜브 영상 링크 주소 입력 후 Enter">
+      <input type="text" class="todo-input-style" id="music-yt-url-input" style="margin-top:6px; font-size:10px;" placeholder="유튜브 영상 링크 입력 후 Enter">
+      
+      <div class="music-admin-art-form" id="music-admin-art-wrapper">
+        <input type="text" class="todo-input-style" id="music-art-src-input" style="font-size:9px; height:22px;" placeholder="교체할 앨범 아트 이미지 URL">
+        <button class="btn-timer-core btn-timer-start" id="btn-music-art-save" style="height:20px; font-size:9px; margin-top:2px;">커버 고정 저장</button>
+      </div>
     </div>
 
     <div class="widget-card">
@@ -588,15 +452,12 @@ body {
     </div>
   </div>
 
-  <!-- 시작 메뉴 -->
   <div id="start-menu-window">
     <div class="start-profile-area">
-      <!-- 👤 변경사항: 흰색 깔끔 배경 프로필 지정 -->
-      <div class="start-profile-img-slot"></div>
+      <div class="start-profile-img-slot" id="start-profile-avatar-box"></div>
       <div class="start-profile-info">
-        <!-- 👤 기본값 이름: 비초 / 메시지: V2 매핑 -->
-        <div class="start-profile-name" id="start-profile-name-text">비초</div>
-        <div class="start-profile-msg" id="start-profile-msg-text">V2</div>
+        <div class="start-profile-name" id="start-profile-display-name">비초</div>
+        <div class="start-profile-msg" id="start-profile-display-msg">V2</div>
       </div>
       <div class="start-gear-icon" id="admin-login-indicator">⚙️</div>
     </div>
@@ -606,7 +467,6 @@ body {
     <div class="start-app-item" data-openwin="win-trash">🗑️ 휴지통</div>
   </div>
 
-  <!-- 하단 바 고정 인프라 -->
   <div id="taskbar">
     <button id="start-btn">시작</button>
     <span id="admin-status-bar-text">[일반 유저 모드]</span>
@@ -615,7 +475,6 @@ body {
 
 </div>
 
-<!-- 자바스크립트 비즈니스 통합 제어 아키텍처 -->
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
 (function(){
@@ -623,112 +482,63 @@ body {
 
   var ADMIN_PASSWORD = "1234";
 
-  /* =================================================================
-     📦 [다른 PC 전역 동기화용 고정 마스터 서버 데이터베이스]
-     ================================================================= */
-  var STATIC_SERVER_DB = [];
-
-  // 기본 프로필 세팅 요구치 반영 (비초 / V2)
   var DEFAULT_BLANK_DB = {
     c_sub_diary: [], c_sub_note: [], p_sub_log: [], p_sub_gift: [],
     dday: { title: 'D-Day를 설정해보세요', date: '' },
-    profile: { name: '비초', msg: 'V2' }
+    profile: { name: '비초', msg: 'V2' },
+    mainBannerUrl: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=800',
+    musicCoverUrl: ''
   };
 
   var appState = {
-    isAdmin: false, currentCategory: 'all', searchQuery: '',
+    isAdmin: false, currentCategory: 'all', currentTimerMode: 'normal',
     fileDB: {}, todoList: [], notepadMemos: [""], activeTabIdx: 0,
-    ytPlayer: null, musicProgressTimer: null, currentTrackTitle: '재생 중인 곡이 없습니다'
+    ytPlayer: null, musicProgressTimer: null
   };
 
   var activeZIndex = 500;
   function query(s){ return document.querySelector(s); }
-  function setStorage(k, d){ try{localStorage.setItem('orange_os_'+k, JSON.stringify(d));}catch(e){} }
-  function getStorage(k){ try{var r=localStorage.getItem('orange_os_'+k); return r?JSON.parse(r):null;}catch(e){return null;} }
+  function setStorage(k, d){ localStorage.setItem('orange_os_v2_'+k, JSON.stringify(d)); }
+  function getStorage(k){ var r=localStorage.getItem('orange_os_v2_'+k); return r?JSON.parse(r):null; }
 
-  /* ---------- ❄️ 실시간 눈 내리는 애니메이션 엔진 효과 ---------- */
+  var PATH_MAP = {
+    all: '내 PC',
+    gb: '내 PC › 방명록',
+    c: '내 PC › 로컬 디스크 (C:)',
+    c_sub_diary: '내 PC › 로컬 디스크 (C:) › diary',
+    c_sub_note: '내 PC › 로컬 디스크 (C:) › note',
+    photos: '내 PC › 내 사진',
+    p_sub_log: '내 PC › 내 사진 › log',
+    p_sub_gift: '내 PC › 내 사진 › cm*gift'
+  };
+
+  /* ---------- 실시간 눈 내리는 효과 ---------- */
   function initSnowEffect() {
-    var canvas = query('#snow-canvas');
-    if(!canvas) return;
-    var ctx = canvas.getContext('2d');
-    var flakes = [];
-    
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+    var canvas = query('#snow-canvas'); if(!canvas) return;
+    var ctx = canvas.getContext('2d'); var flakes = [];
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize); resize();
+    for(var i = 0; i < 50; i++) {
+      flakes.push({ x: Math.random()*window.innerWidth, y: Math.random()*window.innerHeight, r: Math.random()*3+1, d: Math.random() });
     }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    for(var i = 0; i < 60; i++) {
-      flakes.push({
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight,
-        r: Math.random() * 3 + 1,
-        d: Math.random() * 1
-      });
-    }
-
-    function drawFlakes() {
+    function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "rgba(255, 255, 255, 0.75)";
-      ctx.beginPath();
+      ctx.fillStyle = "rgba(255, 255, 255, 0.75)"; ctx.beginPath();
       for(var i = 0; i < flakes.length; i++) {
-        var f = flakes[i];
-        ctx.moveTo(f.x, f.y);
-        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+        var f = flakes[i]; ctx.moveTo(f.x, f.y); ctx.arc(f.x, f.y, f.r, 0, Math.PI*2, true);
       }
-      ctx.fill();
-      moveFlakes();
+      ctx.fill(); move(); requestAnimationFrame(draw);
     }
-
-    function moveFlakes() {
+    function move() {
       for(var i = 0; i < flakes.length; i++) {
-        var f = flakes[i];
-        f.y += Math.cos(f.d) + 1 + f.r / 2;
-        f.x += Math.sin(f.d) * 0.5;
-        if(f.y > canvas.height) {
-          flakes[i] = { x: Math.random() * canvas.width, y: -10, r: f.r, d: f.d };
-        }
+        var f = flakes[i]; f.y += Math.cos(f.d) + 1 + f.r/2; f.x += Math.sin(f.d)*0.5;
+        if(f.y > canvas.height) flakes[i] = { x: Math.random()*canvas.width, y: -10, r: f.r, d: f.d };
       }
     }
-
-    function run() {
-      drawFlakes();
-      requestAnimationFrame(run);
-    }
-    run();
+    draw();
   }
 
-  /* ---------- 창 최적화 제어 프로토콜 (닫기 / 축소 / 최대화 확대 복구) ---------- */
-  document.querySelectorAll('.mac-buttons').forEach(function(btnGroup){
-    btnGroup.addEventListener('click', function(e){
-      var btn = e.target;
-      if(!btn.classList.contains('mac-btn')) return;
-      var winId = btn.dataset.winid;
-      var win = document.getElementById(winId);
-      if(!win) return;
-
-      if(btn.classList.contains('mac-close')) {
-        win.classList.remove('open');
-      } else if(btn.classList.contains('mac-min')) {
-        win.classList.toggle('minimized');
-      } else if(btn.classList.contains('mac-max')) {
-        if(win.style.width === '100vw') {
-          win.style.width = win.dataset.origW || '500px';
-          win.style.height = win.dataset.origH || '400px';
-          win.style.left = '100px'; win.style.top = '100px';
-        } else {
-          win.dataset.origW = win.style.width;
-          win.dataset.origH = win.style.height;
-          win.style.width = '100vw'; win.style.height = 'calc(100vh - 40px)';
-          win.style.left = '0'; win.style.top = '0';
-        }
-      }
-    });
-  });
-
-  /* ---------- 레이어 드래그앤드롭 및 포커싱 인프라 ---------- */
+  /* ---------- 창 드래그 기능 ---------- */
   function bringToFront(el){ activeZIndex += 2; el.style.zIndex = activeZIndex; }
   function setupWindowDrag(win){
     var h = win.querySelector('.win-header'); if(!h) return;
@@ -741,8 +551,7 @@ body {
     });
     h.addEventListener('pointermove', function(e){
       if(!isM || win.style.width === '100vw') return;
-      win.style.left = (il + (e.clientX - sx)) + 'px';
-      win.style.top = (it + (e.clientY - sy)) + 'px';
+      win.style.left = (il + (e.clientX - sx)) + 'px'; win.style.top = (it + (e.clientY - sy)) + 'px';
     });
     var stop = function(){ isM = false; };
     h.addEventListener('pointerup', stop); h.addEventListener('pointercancel', stop);
@@ -750,16 +559,29 @@ body {
   }
   document.querySelectorAll('.window').forEach(setupWindowDrag);
 
-  document.addEventListener('click', function(e){
-    var open = e.target.closest('[data-openwin]');
-    if(open) {
-      var w = document.getElementById(open.dataset.openwin);
+  /* ---------- 아이콘 및 UI 연결 ---------- */
+  document.querySelectorAll('[data-openwin]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var id = btn.dataset.openwin; var w = query('#' + id);
       if(w) { w.classList.add('open'); w.classList.remove('minimized'); bringToFront(w); }
-      query('#start-menu-window').style.display = 'none';
-    }
+    });
   });
 
-  /* ---------- 하단바 및 실시간 시계 ---------- */
+  document.querySelectorAll('.mac-close').forEach(function(btn){
+    btn.addEventListener('click', function(){ query('#'+btn.dataset.winid).classList.remove('open'); });
+  });
+  document.querySelectorAll('.mac-min').forEach(function(btn){
+    btn.addEventListener('click', function(){ query('#'+btn.dataset.winid).classList.add('minimized'); });
+  });
+
+  /* ---------- 시계 및 시작 메뉴 ---------- */
+  function startClock(){
+    var d = new Date(); var h = d.getHours(); var m = String(d.getMinutes()).padStart(2,'0');
+    var a = h >= 12 ? 'PM' : 'AM'; h = h % 12; h = h ? h : 12;
+    query('#system-clock').textContent = h + ':' + m + ' ' + a;
+  }
+  setInterval(startClock, 5000); startClock();
+
   query('#start-btn').addEventListener('click', function(e){
     e.stopPropagation(); var m = query('#start-menu-window');
     m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
@@ -769,113 +591,152 @@ body {
       query('#start-menu-window').style.display = 'none';
     }
   });
-  function startClock(){
-    var d = new Date(); var h = d.getHours(); var m = String(d.getMinutes()).padStart(2,'0');
-    var a = h >= 12 ? 'PM' : 'AM'; h = h % 12; h = h ? h : 12;
-    query('#system-clock').textContent = h + ':' + m + ' ' + a;
-  }
-  setInterval(startClock, 4000); startClock();
 
-  /* ---------- 최고 관리자 인증 검증 ---------- */
+  /* ---------- 최고 관리자 제어 모드 ---------- */
   query('#admin-login-indicator').addEventListener('click', function(){
     if(!appState.isAdmin) {
       var p = prompt("관리자 검증 패스워드를 입력하세요:");
-      if(p === ADMIN_PASSWORD) {
-        appState.isAdmin = true; alert("🔓 관리자 권한 승인 완료!"); syncAdminUI();
-      } else if(p !== null) { alert("❌ 인증에 실패했습니다."); }
+      if(p === ADMIN_PASSWORD) { appState.isAdmin = true; alert("🔓 관리자 모드 가동!"); syncAdminUI(); }
+      else if(p !== null) { alert("❌ 인증에 실패했습니다."); }
     } else {
-      if(confirm("관리자 모드를 취소할까요?")) { appState.isAdmin = false; syncAdminUI(); }
+      if(confirm("관리자 모드를 끌까요?")) { appState.isAdmin = false; syncAdminUI(); }
     }
   });
+
   function syncAdminUI(){
     if(appState.isAdmin) {
       query('#admin-status-bar-text').textContent = "[🔓 최고 관리자 모드]";
       query('#admin-status-bar-text').style.color = "var(--point-orange-mid)";
       query('#admin-add-post-btn').style.display = "inline-block";
+      query('#music-admin-art-wrapper').style.display = "flex";
     } else {
       query('#admin-status-bar-text').textContent = "[일반 유저 모드]";
       query('#admin-status-bar-text').style.color = "var(--text-muted)";
       query('#admin-add-post-btn').style.display = "none";
+      query('#music-admin-art-wrapper').style.display = "none";
     }
     renderFinderGrid();
   }
 
-  function updateProfileUI(){
-    var p = appState.fileDB.profile || DEFAULT_BLANK_DB.profile;
-    query('#start-profile-name-text').textContent = p.name;
-    query('#start-profile-msg-text').textContent = p.msg;
-  }
-
-  /* ---------- 범용 디데이 위젯 제어 ---------- */
-  function updateDDayWidget(){
-    var d = appState.fileDB.dday || { title: 'D-Day를 설정해보세요', date: '' };
-    query('#wd-dday-title').textContent = d.title;
-    if(!d.date) { query('#wd-dday-days').textContent = 'D-OFF'; return; }
-    var tDate = new Date(d.date); tDate.setHours(0,0,0,0);
-    var today = new Date(); today.setHours(0,0,0,0);
-    var diff = Math.round((tDate - today) / (1000 * 60 * 60 * 24));
-    query('#wd-dday-days').textContent = diff === 0 ? 'D-DAY' : (diff > 0 ? 'D-' + diff : 'D+' + Math.abs(diff));
-  }
-  query('#wd-dday-trigger-box').addEventListener('click', function(){
-    var c = appState.fileDB.dday || { title: '', date: '' };
-    query('#form-dday-title').value = c.title; query('#form-dday-date').value = c.date;
-    var w = query('#win-admin-dday'); w.classList.add('open'); bringToFront(w);
-  });
-  query('#btn-admin-dday-save').addEventListener('click', function(){
-    var t = query('#form-dday-title').value.trim(); var d = query('#form-dday-date').value;
-    if(!t) return; appState.fileDB.dday = { title: t, date: d };
-    setStorage('masterFileDB', appState.fileDB); updateDDayWidget(); dumpCurrentDB();
-    query('#win-admin-dday').classList.remove('open');
-  });
-
-  /* ---------- 오렌지 메모장 제어 프로토콜 ---------- */
+  /* ---------- 메모장 시스템 (멀티 탭 & 탭 삭제 기능) ---------- */
   function renderNotepadTabs(){
     var bar = query('#notepad-tabs-bar');
+    if(!bar) return;
     bar.querySelectorAll('.notepad-tab').forEach(function(el){ el.remove(); });
+    
     appState.notepadMemos.forEach(function(memo, idx){
       var tab = document.createElement('div');
       tab.className = 'notepad-tab' + (appState.activeTabIdx === idx ? ' active' : '');
-      tab.textContent = '메모' + (idx + 1);
-      tab.addEventListener('click', function(){
+      
+      var label = document.createElement('span');
+      label.textContent = '메모' + (idx + 1);
+      label.addEventListener('click', function(){
         appState.notepadMemos[appState.activeTabIdx] = query('#notepad-textarea-core').value;
         appState.activeTabIdx = idx; renderNotepadTabs();
       });
+      tab.appendChild(label);
+
+      var delBtn = document.createElement('span');
+      delBtn.className = 'notepad-tab-del-btn';
+      delBtn.textContent = '×';
+      delBtn.addEventListener('click', function(e){
+        e.stopPropagation();
+        if(appState.notepadMemos.length <= 1) {
+          appState.notepadMemos = [""]; appState.activeTabIdx = 0;
+        } else {
+          appState.notepadMemos.splice(idx, 1);
+          if(appState.activeTabIdx >= appState.notepadMemos.length) {
+            appState.activeTabIdx = appState.notepadMemos.length - 1;
+          }
+        }
+        setStorage('notepadMemos', appState.notepadMemos);
+        renderNotepadTabs();
+      });
+      tab.appendChild(delBtn);
+
       bar.insertBefore(tab, query('#btn-notepad-add-tab'));
     });
     query('#notepad-textarea-core').value = appState.notepadMemos[appState.activeTabIdx] || '';
-    query('#notepad-char-counter').textContent = query('#notepad-textarea-core').value.length + '자';
+    query('#notepad-char-counter').textContent = (query('#notepad-textarea-core').value.length) + '자';
   }
+
   query('#notepad-textarea-core').addEventListener('input', function(){
     query('#notepad-char-counter').textContent = this.value.length + '자';
-    appState.notepadMemos[appState.activeTabIdx] = this.value; setStorage('notepadMemos', appState.notepadMemos);
+    appState.notepadMemos[appState.activeTabIdx] = this.value;
+    setStorage('notepadMemos', appState.notepadMemos);
   });
+
   query('#btn-notepad-add-tab').addEventListener('click', function(){
-    if(appState.notepadMemos.length >= 8) return;
+    if(appState.notepadMemos.length >= 12) return;
     appState.notepadMemos[appState.activeTabIdx] = query('#notepad-textarea-core').value;
     appState.notepadMemos.push(''); appState.activeTabIdx = appState.notepadMemos.length - 1;
     renderNotepadTabs();
   });
-  query('#btn-notepad-clear-current').addEventListener('click', function(){ query('#notepad-textarea-core').value = ''; query('#notepad-char-counter').textContent = '0자'; appState.notepadMemos[appState.activeTabIdx] = ''; });
-
-  /* ---------- 타이머 및 뽀모도로 엔진 ---------- */
-  var timeRemaining = 1500, timerHandle = null;
-  document.querySelectorAll('.timer-preset-btn').forEach(function(btn){
-    btn.addEventListener('click', function(){ timeRemaining = parseInt(btn.dataset.min)*60; clearInterval(timerHandle); timerHandle=null; updateTimerUI(); });
+  query('#btn-notepad-clear-current').addEventListener('click', function(){
+    query('#notepad-textarea-core').value = ''; query('#notepad-char-counter').textContent = '0자';
+    appState.notepadMemos[appState.activeTabIdx] = ''; setStorage('notepadMemos', appState.notepadMemos);
   });
+
+  /* ---------- 타이머 및 프리셋 복구 기능 ---------- */
+  var timeRemaining = 1500, timerHandle = null;
+  
+  document.querySelectorAll('.timer-tab-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.timer-tab-btn').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      appState.currentTimerMode = btn.dataset.timermode;
+      clearInterval(timerHandle); timerHandle = null;
+      
+      if(appState.currentTimerMode === 'pomo') {
+        timeRemaining = 1800;
+        query('#timer-presets-row').style.display = 'none';
+      } else {
+        timeRemaining = 1500;
+        query('#timer-presets-row').style.display = 'flex';
+      }
+      updateTimerUI();
+    });
+  });
+
+  document.querySelectorAll('.timer-preset-btn').forEach(function(pBtn){
+    pBtn.addEventListener('click', function(){
+      if(appState.currentTimerMode === 'pomo') return;
+      clearInterval(timerHandle); timerHandle = null;
+      var minutes = parseInt(pBtn.dataset.min, 10);
+      timeRemaining = minutes * 60;
+      updateTimerUI();
+    });
+  });
+
   function updateTimerUI(){
-    var m = String(Math.floor(timeRemaining / 60)).padStart(2, '0'); var s = String(timeRemaining % 60).padStart(2, '0');
+    var m = String(Math.floor(timeRemaining / 60)).padStart(2, '0');
+    var s = String(timeRemaining % 60).padStart(2, '0');
     query('#wd-timer-display').textContent = m + ':' + s;
   }
+
   query('#wctrl-start').addEventListener('click', function(){
     if(timerHandle) return;
-    timerHandle = setInterval(function(){ if(timeRemaining > 0){timeRemaining--; updateTimerUI();}else{clearInterval(timerHandle); timerHandle=null; alert("시간이 완료되었습니다!");} }, 1000);
+    timerHandle = setInterval(function(){
+      if(timeRemaining > 0){
+        timeRemaining--; updateTimerUI();
+      } else {
+        clearInterval(timerHandle); timerHandle = null;
+        alert(appState.currentTimerMode === 'pomo' ? "🍅 뽀모도로 30분 집중 타임이 완료되었습니다!" : "타이머 종료!");
+      }
+    }, 1000);
   });
-  query('#wctrl-reset').addEventListener('click', function(){ clearInterval(timerHandle); timerHandle=null; timeRemaining=1500; updateTimerUI(); });
 
-  /* ---------- 유튜브 임베디드 뮤직 엔진 ---------- */
+  query('#wctrl-reset').addEventListener('click', function(){
+    clearInterval(timerHandle); timerHandle = null;
+    timeRemaining = (appState.currentTimerMode === 'pomo') ? 1800 : 1500;
+    updateTimerUI();
+  });
+
+  /* ---------- 유튜브 플레이어 & 뮤직 시스템 ---------- */
   window.onYouTubeIframeAPIReady = function() {
     appState.ytPlayer = new YT.Player('yt-audio-player-engine', {
-      height: '1', width: '1', videoId: '', playerVars: { 'autoplay': 0, 'controls': 0 },
+      height: '1', width: '1', videoId: '',
+      playerVars: { 'autoplay': 0, 'controls': 0 },
       events: { 'onStateChange': function(e){
         if(e.data == YT.PlayerState.PLAYING) {
           query('#mctrl-play').textContent = "⏸";
@@ -885,17 +746,20 @@ body {
       }}
     });
   };
+
   query('#music-yt-url-input').addEventListener('keypress', function(e){
     if(e.key === 'Enter') {
       var url = this.value.trim(); if(!url) return;
       var vid = ''; if(url.indexOf('v=')>-1){vid=url.split('v=')[1].split('&')[0];}else if(url.indexOf('youtu.be/')>-1){vid=url.split('youtu.be/')[1].split('?')[0];}
-      if(vid && appState.ytPlayer) { appState.ytPlayer.loadVideoById(vid); setStorage('curTrackUrl', url); }
+      if(vid && appState.ytPlayer) { appState.ytPlayer.loadVideoById(vid); }
     }
   });
+
   query('#mctrl-play').addEventListener('click', function(){
     if(!appState.ytPlayer) return;
     if(appState.ytPlayer.getPlayerState() == YT.PlayerState.PLAYING) { appState.ytPlayer.pauseVideo(); } else { appState.ytPlayer.playVideo(); }
   });
+
   function startMusicTimer(){
     clearInterval(appState.musicProgressTimer);
     appState.musicProgressTimer = setInterval(function(){
@@ -908,14 +772,41 @@ body {
     }, 500);
   }
 
-  /* ---------- 할 일 목록 주황 테마 제어 시스템 ---------- */
+  function updateMusicCoverUI(){
+    var wrap = query('#music-album-cover-box');
+    if(!wrap) return;
+    if(appState.fileDB.musicCoverUrl) {
+      wrap.innerHTML = `<img src="${appState.fileDB.musicCoverUrl}" style="width:100%; height:100%; object-fit:cover;">`;
+      query('#music-art-src-input').value = appState.fileDB.musicCoverUrl;
+    } else {
+      wrap.innerHTML = `<span id="music-default-art-logo" style="font-size:24px;">🎵</span>`;
+    }
+  }
+
+  query('#btn-music-art-save').addEventListener('click', function(){
+    var src = query('#music-art-src-input').value.trim();
+    appState.fileDB.musicCoverUrl = src;
+    setStorage('masterFileDB', appState.fileDB);
+    updateMusicCoverUI();
+    alert("🎵 음악 플레이어 커버가 고정 저장되었습니다.");
+  });
+
+  /* ---------- 할 일 관리 기능 ---------- */
   function renderTodoList(){
-    var c = query('#wd-todo-items-list'); c.innerHTML = '';
+    var c = query('#wd-todo-items-list'); if(!c) return;
+    c.innerHTML = '';
     appState.todoList.forEach(function(todo, idx){
       var r = document.createElement('div'); r.className = 'todo-item-row';
-      r.innerHTML = `<input type="checkbox" ${todo.done ? 'checked' : ''}> <span style="${todo.done ? 'text-decoration:line-through; opacity:0.5;' : ''}">${todo.text}</span>`;
+      r.innerHTML = `
+        <input type="checkbox" ${todo.done ? 'checked' : ''}>
+        <span style="${todo.done ? 'text-decoration:line-through; opacity:0.5;' : ''}">${todo.text}</span>
+        <span class="todo-del-btn" data-todoidx="${idx}">❌</span>
+      `;
       r.querySelector('input').addEventListener('change', function(e){
         appState.todoList[idx].done = e.target.checked; setStorage('todoList', appState.todoList); renderTodoList();
+      });
+      r.querySelector('.todo-del-btn').addEventListener('click', function(){
+        appState.todoList.splice(idx, 1); setStorage('todoList', appState.todoList); renderTodoList();
       });
       c.appendChild(r);
     });
@@ -928,15 +819,18 @@ body {
     }
   });
 
-  /* ---------- 🗂️ 기존 정렬 방식 복구 및 사진 1열 3장 뷰어 고도화 ---------- */
+  /* ---------- 파인더 시스템 및 대형 이미지 슬롯 제어 ---------- */
   function renderFinderGrid(){
-    var body = query('#finder-main-body'); body.innerHTML = '';
+    var body = query('#finder-main-body'); if(!body) return;
+    body.innerHTML = '';
     var active = appState.currentCategory;
 
+    query('#header-path-text').textContent = PATH_MAP[active] || '내 PC';
+
     if(active === 'gb') {
-      query('#content-items-count').textContent = '방명록 한마디';
+      query('#content-items-count').textContent = '방명록';
       body.innerHTML = `<div style="display:flex; flex-direction:column; gap:8px;">
-        <div style="display:flex; gap:6px;"><input type="text" id="gb-txt" class="todo-input-style" placeholder="방명록 남기기..."><button id="gb-btn" style="background:var(--point-orange-mid); color:white; border:none; padding:0 12px; border-radius:4px; cursor:pointer;">등록</button></div>
+        <div style="display:flex; gap:6px;"><input type="text" id="gb-txt" class="todo-input-style" placeholder="한마디 남기기..."><button id="gb-btn" style="background:var(--point-orange-mid); color:white; border:none; padding:0 12px; border-radius:4px; cursor:pointer;">등록</button></div>
         <div id="gb-list" style="display:flex; flex-direction:column; gap:6px; margin-top:6px;"></div>
       </div>`;
       var list = query('#gb-list'); (getStorage('gbData') || []).forEach(function(g){
@@ -949,8 +843,41 @@ body {
       return;
     }
 
+    if(active === 'all') {
+      var bannerBox = document.createElement('div');
+      bannerBox.id = 'main-banner-zone';
+      var currentUrl = appState.fileDB.mainBannerUrl || DEFAULT_BLANK_DB.mainBannerUrl;
+      
+      bannerBox.innerHTML = `
+        <div class="main-pc-root-banner" style="background-image: url('${currentUrl}');"></div>
+        <div class="main-pc-banner-editor" id="main-banner-editor-box" style="display: ${appState.isAdmin ? 'flex' : 'none'}; margin-top: 10px;">
+          <label style="font-size:11px; font-weight:bold; color:var(--point-orange-mid);">💡 [관리자] 내 PC 메인 큰 사진 주소 교체</label>
+          <div style="display:flex; gap:6px;">
+            <input type="text" class="todo-input-style" id="main-banner-url-input" value="${currentUrl}" style="flex:1;">
+            <button class="btn-timer-core btn-timer-start" id="btn-main-banner-save" style="width:70px;">고정 저장</button>
+          </div>
+        </div>
+      `;
+      body.appendChild(bannerBox);
+
+      setTimeout(function(){
+        var saveBtn = query('#btn-main-banner-save');
+        if(saveBtn) {
+          saveBtn.onclick = function(){
+            var nextUrl = query('#main-banner-url-input').value.trim();
+            if(nextUrl) {
+              appState.fileDB.mainBannerUrl = nextUrl;
+              setStorage('masterFileDB', appState.fileDB);
+              renderFinderGrid();
+              alert("🏠 메인 대형 이미지가 고정 저장되었습니다.");
+            }
+          };
+        }
+      }, 0);
+    }
+
     var listData = [];
-    var isPhotoCategory = false; // 📸 사진 모드 체크 플래그 변수
+    var isPhotoCategory = false;
 
     if(active === 'all') {
       var db = appState.fileDB; listData = [].concat(db.c_sub_diary||[], db.c_sub_note||[], db.p_sub_log||[], db.p_sub_gift||[]);
@@ -960,21 +887,19 @@ body {
       if(active === 'photos') { listData = [].concat(db.p_sub_log||[], db.p_sub_gift||[]); isPhotoCategory = true; }
     } else {
       listData = appState.fileDB[active] || [];
-      if(active === 'p_sub_log' || active === 'p_sub_gift') { isPhotoCategory = true; }
+      if(active === 'p_sub_log' || active === 'p_sub_gift') isPhotoCategory = true;
     }
 
     query('#content-items-count').textContent = '항목 ' + listData.length + '개';
     
     var grid = document.createElement('div');
-    // 🖼️ 요구사항 반영: 사진 관련 카테고리일 경우 무조건 1열에 3장씩 배치하는 클래스 할당
     grid.className = isPhotoCategory ? 'grid-layout-photos-3col' : 'grid-layout-original';
 
     listData.forEach(function(item){
       var card = document.createElement('div'); card.className = 'card-style-original';
       var badge = appState.isAdmin ? `<button class="admin-badge-btn">✏️</button>` : '';
-      
-      // 이모지 대체 및 이미지 박스 동적 컴포넌트
       var iconInner = item.src ? `<img src="${item.src}">` : '📄';
+      
       card.innerHTML = `${badge}<div class="card-icon-wrap">${iconInner}</div><div class="card-text-original">${item.title}</div>`;
       
       card.addEventListener('click', function(e){
@@ -1001,7 +926,7 @@ body {
       <div class="blog-view-frame">
         <div class="blog-header-section">
           <div class="blog-title">${item.title}</div>
-          <div class="blog-heart-icon" onclick="this.classList.toggle('active'); this.textContent=this.classList.contains('active')?'♥':'♡';">♡</div>
+          <div class="blog-heart-icon" id="blog-heart-toggle-btn">♡</div>
         </div>
         <div class="blog-date">작성일: ${item.date}</div>
         <hr class="blog-divider">
@@ -1011,13 +936,17 @@ body {
         </div>
       </div>
     `;
+    var heart = query('#blog-heart-toggle-btn');
+    if(heart) {
+      heart.onclick = function(){
+        this.classList.toggle('active');
+        this.textContent = this.classList.contains('active') ? '♥' : '♡';
+      };
+    }
     var w = query('#win-blog-detail'); w.classList.add('open'); w.classList.remove('minimized'); bringToFront(w);
   }
 
-  function dumpCurrentDB(){
-    query('#admin-db-dump-output').value = JSON.stringify(appState.fileDB);
-  }
-
+  /* ---------- 데이터 항목 추가 / 수정 / 삭제 ---------- */
   query('#admin-add-post-btn').addEventListener('click', function(){
     query('#form-edit-id').value = ''; query('#form-item-title').value = ''; query('#form-item-src').value = ''; query('#form-item-text').value = '';
     query('#btn-admin-delete-action').style.display = 'none';
@@ -1034,29 +963,53 @@ body {
     appState.fileDB[cate].unshift({ id: targetId, title: t, src: s, text: txt, date: new Date().toISOString().split('T')[0] });
     
     setStorage('masterFileDB', appState.fileDB); query('#win-admin-editor').classList.remove('open');
-    renderFinderGrid(); dumpCurrentDB();
+    renderFinderGrid();
   });
 
   query('#btn-admin-delete-action').addEventListener('click', function(){
     var id = query('#form-edit-id').value; if(!id) return;
-    Object.keys(appState.fileDB).forEach(function(k){ if(Array.isArray(appState.fileDB[k])){appState.fileDB[k]=appState.fileDB[k].filter(function(i){return i.id!==id;});} });
-    setStorage('masterFileDB', appState.fileDB); query('#win-admin-editor').classList.remove('open');
-    renderFinderGrid(); dumpCurrentDB();
+    Object.keys(appState.fileDB).forEach(function(k){
+      if(Array.isArray(appState.fileDB[k])){ appState.fileDB[k] = appState.fileDB[k].filter(function(i){ return i.id !== id; }); }
+    });
+    setStorage('masterFileDB', appState.fileDB);
+    query('#win-admin-editor').classList.remove('open');
+    renderFinderGrid();
+    alert("선택하신 글 항목이 완전히 삭제되었습니다.");
   });
 
-  /* ---------- 시스템 이니셜라이저 ---------- */
+  /* ---------- 디데이 연산 및 설정 ---------- */
+  function updateDDayWidget(){
+    var d = appState.fileDB.dday || { title: 'D-Day를 설정해보세요', date: '' };
+    query('#wd-dday-title').textContent = d.title;
+    if(!d.date) { query('#wd-dday-days').textContent = 'D-OFF'; return; }
+    var tDate = new Date(d.date); tDate.setHours(0,0,0,0);
+    var today = new Date(); today.setHours(0,0,0,0);
+    var diff = Math.round((tDate - today) / (1000 * 60 * 60 * 24));
+    query('#wd-dday-days').textContent = diff === 0 ? 'D-DAY' : (diff > 0 ? 'D-' + diff : 'D+' + Math.abs(diff));
+  }
+  query('#wd-dday-trigger-box').addEventListener('click', function(){
+    var c = appState.fileDB.dday || { title: '', date: '' };
+    query('#form-dday-title').value = c.title; query('#form-dday-date').value = c.date;
+    var w = query('#win-admin-dday'); w.classList.add('open'); bringToFront(w);
+  });
+  query('#btn-admin-dday-save').addEventListener('click', function(){
+    var t = query('#form-dday-title').value.trim(); var d = query('#form-dday-date').value;
+    if(!t) return; appState.fileDB.dday = { title: t, date: d };
+    setStorage('masterFileDB', appState.fileDB); updateDDayWidget();
+    query('#win-admin-dday').classList.remove('open');
+  });
+
+  /* ---------- 시스템 초기 코어 구동 ---------- */
   function initOS(){
     var local = getStorage('masterFileDB');
-    if(STATIC_SERVER_DB && STATIC_SERVER_DB.length > 0) {
-      appState.fileDB = STATIC_SERVER_DB;
-    } else {
-      appState.fileDB = local ? local : DEFAULT_BLANK_DB;
-    }
+    appState.fileDB = local ? local : DEFAULT_BLANK_DB;
     
-    // 기본 고정 프로필 강제 설정 초기화
-    if(!appState.fileDB.profile || appState.fileDB.profile.name !== '비초') {
-      appState.fileDB.profile = { name: '비초', msg: 'V2' };
-    }
+    if(!appState.fileDB.mainBannerUrl) appState.fileDB.mainBannerUrl = DEFAULT_BLANK_DB.mainBannerUrl;
+    if(!appState.fileDB.profile) appState.fileDB.profile = DEFAULT_BLANK_DB.profile;
+
+    // 프로필 정보 동적 로딩 바인딩 완료
+    query('#start-profile-display-name').textContent = appState.fileDB.profile.name || '비초';
+    query('#start-profile-display-msg').textContent = appState.fileDB.profile.msg || 'V2';
 
     appState.notepadMemos = getStorage('notepadMemos') || [""];
     appState.todoList = getStorage('todoList') || [];
@@ -1068,8 +1021,8 @@ body {
       });
     });
 
-    updateProfileUI(); updateDDayWidget(); renderNotepadTabs(); renderTodoList(); renderFinderGrid(); dumpCurrentDB();
-    initSnowEffect(); // ❄️ 백그라운드 스노우 이펙트 전격 가동
+    updateDDayWidget(); renderNotepadTabs(); renderTodoList(); renderFinderGrid(); updateMusicCoverUI();
+    initSnowEffect();
   }
 
   window.addEventListener('DOMContentLoaded', initOS);

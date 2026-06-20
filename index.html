@@ -27,7 +27,6 @@
   --radius-sm: 4px;
 }
 body {
-  /* 위는 흰색(#ffffff), 아래는 테마에 어울리는 주황색 포인트 컬러로 그라데이션 */
   background: linear-gradient(to bottom, #ffffff 0%, var(--point-orange-mid) 100%) !important;
   background-attachment: fixed;
   min-height: 100vh;
@@ -35,19 +34,18 @@ body {
 }
   
 /* --- 내PC 메인 사진 강제 고정 스타일 --- */
-/* 1. 만약 배경 이미지(Background)로 처리된 구조일 경우 */
 .pc-main-container, 
 [id*="pc-main"], 
 [class*="pc-main"],
 .pc-screen,
-.main-screen {
+.main-screen,
+.main-pc-root-banner {
   background-image: url('https://curly-lime-lghv1a47.edgeone.app/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202026-06-20%20010123.png') !important;
   background-size: cover !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
 }
 
-/* 2. 만약 HTML 내부에 이미지 태그(<img>)로 박혀있는 구조일 경우 */
 .pc-main-container img,
 [id*="pc-main"] img,
 [class*="pc-main"] img,
@@ -117,7 +115,7 @@ body {
 .finder-toolbar {
   height: 40px; display: flex; align-items: center; padding: 0 16px; background: #ffffff; border-bottom: 1px solid var(--border-light); gap: 12px;
 }
-.nav-arrows { display: flex; gap: 8px; color: var(--text-muted); font-size: 13px; }
+.nav-arrows { display: flex; gap: 8px; color: var(--text-muted); font-size: 13px; cursor: pointer; }
 .path-bar-container {
   flex: 1; height: 26px; background: var(--point-orange-light); border-radius: 6px; display: flex; align-items: center; padding: 0 10px; font-size: 11px; color: var(--text-primary); font-weight: 500;
 }
@@ -132,18 +130,13 @@ body {
 .content-top-menu { height: 32px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; border-bottom: 1px solid var(--border-light); background: #fafafa; }
 .content-body { flex: 1; padding: 16px; overflow-y: auto; }
 
-/* 내 PC 메인 큰 배너 스타일 */
 .main-pc-root-banner {
   width: 100%;
-  height: 280px;
+  height: 180px;
   border-radius: var(--radius-md);
-  background-color: #fcfbfa;
-  background-size: cover;
-  background-position: center;
   margin-bottom: 16px;
   border: 1px solid var(--border-medium);
 }
-.main-pc-banner-editor { background: var(--point-orange-light); padding: 10px; border-radius: var(--radius-md); margin-bottom: 16px; display: none; flex-direction: column; gap: 6px; border: 1px dashed var(--point-orange-mid); }
 
 .grid-layout-original { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 16px; }
 .grid-layout-photos-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
@@ -157,15 +150,11 @@ body {
 .blog-view-frame { padding: 4px 8px; user-select: text; }
 .blog-header-section { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
 .blog-title { font-size: 20px; font-weight: 700; color: var(--point-orange-mid); }
-.blog-heart-icon { font-size: 15px; color: var(--text-muted); cursor: pointer; }
-.blog-heart-icon.active { color: red; }
-.blog-date { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; }
 .blog-divider { border: none; border-top: 1px dashed var(--point-orange-mid); opacity: 0.4; margin-bottom: 14px; }
 .blog-center-wrap { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; }
 .blog-deco-img { max-width: 100%; border-radius: var(--radius-sm); border: 1px solid var(--border-light); }
 .blog-main-content { font-size: 13px; line-height: 1.6; color: var(--text-primary); white-space: pre-wrap; margin-top: 8px; text-align: left; width: 100%; }
 
-/* 메모장 탭 시스템 디자인 사양 */
 .notepad-tabs { display: flex; background: var(--sidebar-bg); padding: 6px 8px 0; gap: 4px; border-bottom: 1px solid var(--border-light); overflow-x: auto; }
 .notepad-tab { display: flex; align-items: center; gap: 6px; padding: 6px 12px; font-size: 11px; background: #e6ded9; border-radius: 6px 6px 0 0; cursor: pointer; color: var(--text-primary); white-space: nowrap; }
 .notepad-tab.active { background: #ffffff; font-weight: 700; }
@@ -279,7 +268,7 @@ body {
       <div class="win-title-text" id="finder-tab-title">내 PC</div>
     </div>
     <div class="finder-toolbar">
-      <div class="nav-arrows">〈 〉</div>
+      <div class="nav-arrows" id="btn-finder-back">〈 〉</div>
       <div class="path-bar-container" id="header-path-text">C:\내 PC</div>
       <input type="text" class="search-bar" id="finder-search-input" placeholder="검색어 입력...">
     </div>
@@ -376,6 +365,7 @@ body {
       <div class="admin-field-group">
         <label>저장 대상 카테고리</label>
         <select class="admin-box-input" id="form-item-category">
+          <option value="gb">gb(방명록)</option>
           <option value="c_sub_diary">diary</option>
           <option value="c_sub_note">note</option>
           <option value="p_sub_log">log</option>
@@ -458,7 +448,7 @@ body {
       </div>
       <div id="yt-audio-player-engine" class="music-yt-hidden"></div>
       <div class="music-album-wrap" id="music-album-cover-box">
-        <span id="music-default-art-logo" style="font-size:24px;">🎵</span>
+        <img id="music-player-cover" src="https://curly-lime-lghv1a47.edgeone.app/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202026-06-20%20010123.png" style="width: 100%; height: 100%; object-fit: cover;">
       </div>
       <div class="music-info-text" id="music-track-title">재생 중인 곡이 없습니다</div>
       <div class="music-progress-container">
@@ -512,635 +502,890 @@ body {
 
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
-(function(){
-  'use strict';
+// ==========================================================================
+// 1. 파이어베이스 초기화 및 인스턴스 설정
+// ==========================================================================
+// 보완하신 실제 파이어베이스 구성 객체를 사용하세요.
+const firebaseConfig = {
+  apiKey: "AIzaSyDkh0DYjhbCzBjFo0h62DgMxfFGiJQOUXQ",
+  authDomain: "dogout-2f613.firebaseapp.com",
+  databaseURL: "https://dogout-2f613-default-rtdb.firebaseio.com",
+  projectId: "dogout-2f613",
+  storageBucket: "dogout-2f613.firebasestorage.app",
+  messagingSenderId: "1039585332276",
+  appId: "1:1039585332276:web:7baeba5e97fab2a0204e61",
+  measurementId: "G-CZ83GH68Q9"
+};
 
-  var ADMIN_PASSWORD = "2598";
-  var DEFAULT_BLANK_DB = {
-    c_sub_diary: [], c_sub_note: [], p_sub_log: [], p_sub_gift: [],
-    dday: { title: 'D-Day를 설정해보세요', date: '' },
-    profile: { name: '비초', msg: 'V2' },
-    mainBannerUrl: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=800',
-    musicCoverUrl: 'https://curly-lime-lghv1a47.edgeone.app/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202026-06-20%20010123.png'
-  };
-
-  // 2. 전체 앱 상태 관리 변수
-  var appState = {
-    isAdmin: false, currentCategory: 'all', currentTimerMode: 'normal',
-    fileDB: {}, todoList: [], notepadMemos: [""], activeTabIdx: 0,
-    ytPlayer: null, musicProgressTimer: null
-  };
-
-  // 3. 구글 파이어베이스 실시간 데이터베이스 연결 설정
-  var firebaseConfig = {
-    apiKey: "AIzaSyDkh0DYjhbCzBjFo0h62DgMxfFGiJQOUXQ",
-    authDomain: "dogout-2f613.firebaseapp.com",
-    databaseURL: "https://dogout-2f613-default-rtdb.firebaseio.com",
-    projectId: "dogout-2f613",
-    storageBucket: "dogout-2f613.firebasestorage.app",
-    messagingSenderId: "1039585332276",
-    appId: "1:1039585332276:web:7baeba5e97fab2a0204e61",
-    measurementId: "G-CZ83GH68Q9"
-  };
-
-  // 파이어베이스 엔진 초기화
+if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
-  var db = firebase.database();
+}
+const db = firebase.database();
 
-  var activeZIndex = 500;
-  function query(s){ return document.querySelector(s); }
+// 데이터베이스 전역 참조 경로 정의
+const dbRefMain      = db.ref("orange_os/posts");
+const dbRefDday      = db.ref("orange_os/dday_data");
+const dbRefMusic     = db.ref("orange_os/music_data");
+const dbRefTodos     = db.ref("orange_os/todos");
+const dbRefNotepad   = db.ref("orange_os/notepad_tabs");
 
-  // 4. [기능 복구] 클라우드 전역 데이터베이스에 데이터를 저장하는 유일한 setStorage 함수
-  function setStorage(k, d) {
-    db.ref('orange_os_v2/' + k).set(d);
+// ==========================================================================
+// 2. 관리자 인증 시스템 (콘솔 로그인 및 비밀번호 체크)
+// ==========================================================================
+let IS_ADMIN_MODE = false;
+
+function applyAdminUIRender() {
+  const statusText = document.getElementById("admin-status-bar-text");
+  const addPostBtn = document.getElementById("admin-add-post-btn");
+  const musicForm = document.getElementById("music-admin-art-wrapper");
+  
+  if (IS_ADMIN_MODE) {
+    statusText.innerText = "[총괄 관리자 모드 활성]";
+    statusText.style.color = "var(--point-orange-accent)";
+    if (addPostBtn) addPostBtn.style.display = "inline";
+    if (musicForm) musicForm.style.display = "flex";
+  } else {
+    statusText.innerText = "[일반 유저 모드]";
+    statusText.style.color = "var(--text-muted)";
+    if (addPostBtn) addPostBtn.style.display = "none";
+    if (musicForm) musicForm.style.display = "none";
   }
+  renderContentListGrid(); 
+}
 
-  // 5. [실시간 동기화] 데이터베이스에서 데이터를 실시간으로 가져와 화면에 뿌려주는 핵심 로직
-  db.ref('orange_os_v2/masterFileDB').on('value', function(snapshot) {
-    var data = snapshot.val();
-    if (data) {
-      appState.fileDB = data;
+window.connectAdmin = function(pwd) {
+  // 실제 비밀번호 조건 검증
+  if (pwd === "eagles00") {
+    IS_ADMIN_MODE = true;
+    applyAdminUIRender();
+    console.log("오렌지 OS: 최고 관리자 인증 승인 완료.");
+    return "인증 성공";
+  } else {
+    console.log("오렌지 OS: 비밀번호가 일치하지 않습니다.");
+    return "인증 실패";
+  }
+};
+
+document.getElementById("admin-login-indicator").addEventListener("click", () => {
+  const p = prompt("관리자 비밀번호를 입력하십시오.");
+  if (p) {
+    if (connectAdmin(p) === "인증 성공") {
+      alert("관리자 권한이 부여되었습니다.");
     } else {
-      appState.fileDB = DEFAULT_BLANK_DB;
+      alert("비밀번호가 올바르지 않습니다.");
+    }
+  }
+});
+
+// ==========================================================================
+// 3. 눈 내리는 애니메이션 효과 (실시간 렌더링 Canvas)
+// ==========================================================================
+const canvas = document.getElementById("snow-canvas");
+const ctx = canvas.getContext("2d");
+let flakes = [];
+
+function resizeSnowCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener("resize", resizeSnowCanvas);
+resizeSnowCanvas();
+
+function initSnowFlakes() {
+  flakes = [];
+  for (let i = 0; i < 65; i++) {
+    flakes.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 3 + 1,
+      d: Math.random() * 1.5 + 0.5,
+      speedX: Math.random() * 0.6 - 0.3
+    });
+  }
+}
+initSnowFlakes();
+
+function loopSnowAnimation() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
+  ctx.beginPath();
+  for (let i = 0; i < flakes.length; i++) {
+    let f = flakes[i];
+    ctx.moveTo(f.x, f.y);
+    ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+    
+    f.y += f.d;
+    f.x += f.speedX;
+    
+    if (f.y > canvas.height) {
+      flakes[i] = {
+        x: Math.random() * canvas.width,
+        y: -10,
+        r: f.r,
+        d: f.d,
+        speedX: f.speedX
+      };
+    }
+  }
+  ctx.fill();
+  requestAnimationFrame(loopSnowAnimation);
+}
+requestAnimationFrame(loopSnowAnimation);
+
+// ==========================================================================
+// 4. 창 제어 시스템 (드래그앤드롭, Z-Index 최상단 전환, 최소화, 최대화)
+// ==========================================================================
+let topZIndex = 100;
+const openedWindowIds = new Set();
+
+function makeWindowDraggable(winEl) {
+  const header = winEl.querySelector(".win-header");
+  if (!header) return;
+  
+  header.onmousedown = function(e) {
+    if (e.target.classList.contains("mac-btn")) return;
+    topZIndex++;
+    winEl.style.zindex = topZIndex;
+    winEl.style.zIndex = topZIndex;
+    
+    let shiftX = e.clientX - winEl.getBoundingClientRect().left;
+    let shiftY = e.clientY - winEl.getBoundingClientRect().top;
+    
+    function moveAt(clientX, clientY) {
+      winEl.style.left = (clientX - shiftX) + 'px';
+      winEl.style.top = (clientY - shiftY) + 'px';
     }
     
-    // 데이터 로드가 감지되면 멈춰있던 화면 UI 기능들을 실시간으로 깨워줍니다.
-    if (typeof renderFinderGrid === 'function') {
-      renderFinderGrid();
+    function onMouseMove(event) {
+      moveAt(event.clientX, event.clientY);
     }
-    if (typeof updateDDayWidget === 'function') {
-      updateDDayWidget();
+    
+    document.addEventListener('mousemove', onMouseMove);
+    
+    document.onmouseup = function() {
+      document.removeEventListener('mousemove', onMouseMove);
+      document.onmouseup = null;
+    };
+  };
+}
+
+document.querySelectorAll(".window").forEach(win => {
+  makeWindowDraggable(win);
+  win.addEventListener("mousedown", () => {
+    topZIndex++;
+    win.style.zIndex = topZIndex;
+  });
+});
+
+function openTargetWindow(id) {
+  const win = document.getElementById(id);
+  if (!win) return;
+  topZIndex++;
+  win.style.zIndex = topZIndex;
+  win.classList.add("open");
+  win.classList.remove("minimized");
+  openedWindowIds.add(id);
+}
+
+function closeTargetWindow(id) {
+  const win = document.getElementById(id);
+  if (win) win.classList.remove("open");
+  openedWindowIds.delete(id);
+}
+
+function minimizeTargetWindow(id) {
+  const win = document.getElementById(id);
+  if (win) win.classList.add("minimized");
+}
+
+function toggleMaximizeWindow(id) {
+  const win = document.getElementById(id);
+  if (!win) return;
+  if (win.style.width === "100vw" && win.style.height === "100vh") {
+    win.style.width = win.dataset.prevWidth || "500px";
+    win.style.height = win.dataset.prevHeight || "400px";
+    win.style.left = win.dataset.prevLeft || "100px";
+    win.style.top = win.dataset.prevTop || "100px";
+  } else {
+    win.dataset.prevWidth = win.style.width;
+    win.dataset.prevHeight = win.style.height;
+    win.dataset.prevLeft = win.style.left;
+    win.dataset.prevTop = win.style.top;
+    win.style.width = "100vw";
+    win.style.height = "100vh";
+    win.style.left = "0px";
+    win.style.top = "0px";
+  }
+}
+
+document.querySelectorAll("[data-openwin]").forEach(el => {
+  el.addEventListener("click", () => {
+    openTargetWindow(el.dataset.openwin);
+    document.getElementById("start-menu-window").style.display = "none";
+  });
+});
+
+document.querySelectorAll(".mac-close").forEach(b => {
+  b.addEventListener("click", () => closeTargetWindow(b.dataset.winid));
+});
+document.querySelectorAll(".mac-min").forEach(b => {
+  b.addEventListener("click", () => minimizeTargetWindow(b.dataset.winid));
+});
+document.querySelectorAll(".mac-max").forEach(b => {
+  b.addEventListener("click", () => toggleMaximizeWindow(b.dataset.winid));
+});
+
+// 시작 메뉴 토글 제어
+const startBtn = document.getElementById("start-btn");
+const startMenu = document.getElementById("start-menu-window");
+startBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  startMenu.style.display = (startMenu.style.display === "flex") ? "none" : "flex";
+});
+document.addEventListener("click", (e) => {
+  if (!startMenu.contains(e.target) && e.target !== startBtn) {
+    startMenu.style.display = "none";
+  }
+});
+
+// ==========================================================================
+// 5. 내 사진 및 PC 탐색기 로직 (파이어베이스 실시간 동기화 연동)
+// ==========================================================================
+let currentCategoryFilter = "all";
+let globalPostsData = {};
+let navigationPathHistory = ["all"];
+let currentPathPointer = 0;
+
+const pathNamesMap = {
+  "all": "C:\\내 PC",
+  "gb": "C:\\내 PC\\방명록",
+  "c": "C:\\내 PC\\로컬디스크 (C:)",
+  "c_sub_diary": "C:\\내 PC\\로컬디스크 (C:)\\diary",
+  "c_sub_note": "C:\\내 PC\\로컬디스크 (C:)\\note",
+  "photos": "C:\\내 PC\\내 사진",
+  "p_sub_log": "C:\\내 PC\\내 사진\\record",
+  "p_sub_gift": "C:\\내 PC\\내 사진\\cm"
+};
+
+// 파이어베이스 실시간 포스트 리스너 연동
+dbRefMain.on("value", (snapshot) => {
+  globalPostsData = snapshot.val() || {};
+  renderContentListGrid();
+});
+
+function renderContentListGrid() {
+  const container = document.getElementById("finder-main-body");
+  if (!container) return;
+  container.innerHTML = "";
+  
+  const searchWord = document.getElementById("finder-search-input").value.toLowerCase().trim();
+  
+  document.getElementById("header-path-text").innerText = pathNamesMap[currentCategoryFilter] || "C:\\내 PC";
+  document.getElementById("finder-tab-title").innerText = currentCategoryFilter === "all" ? "내 PC" : currentCategoryFilter;
+
+  // 루트 배너 배치 조건
+  if (currentCategoryFilter === "all" || currentCategoryFilter === "c" || currentCategoryFilter === "photos") {
+    const banner = document.createElement("div");
+    banner.className = "main-pc-root-banner";
+    container.appendChild(banner);
+  }
+
+  // 레이아웃 스타일 설정
+  const isPhotoView = ["photos", "p_sub_log", "p_sub_gift"].includes(currentCategoryFilter);
+  const layoutWrapper = document.createElement("div");
+  layoutWrapper.className = isPhotoView ? "grid-layout-photos-3col" : "grid-layout-original";
+  container.appendChild(layoutWrapper);
+
+  let displayedCount = 0;
+
+  Object.keys(globalPostsData).forEach(uniqueKey => {
+    const post = globalPostsData[uniqueKey];
+    
+    // 카테고리 매칭 검사
+    let isMatched = false;
+    if (currentCategoryFilter === "all") {
+      isMatched = true;
+    } else if (currentCategoryFilter === "c") {
+      isMatched = ["c_sub_diary", "c_sub_note"].includes(post.category);
+    } else if (currentCategoryFilter === "photos") {
+      isMatched = ["p_sub_log", "p_sub_gift"].includes(post.category);
+    } else {
+      isMatched = (post.category === currentCategoryFilter);
     }
-    if (typeof updateMusicPlayerUI === 'function') {
-      updateMusicPlayerUI();
+
+    // 검색 키워드 필터 검사
+    if (isMatched && searchWord) {
+      const tMatch = post.title && post.title.toLowerCase().includes(searchWord);
+      const cMatch = post.text && post.text.toLowerCase().includes(searchWord);
+      if (!tMatch && !cMatch) {
+        isMatched = false;
+      }
+    }
+
+    if (isMatched) {
+      displayedCount++;
+      const itemCard = document.createElement("div");
+      itemCard.className = "card-style-original";
+      
+      let thumbnailMarkup = "📂";
+      if (post.src) {
+        thumbnailMarkup = `<img src="${post.src}" onerror="this.src='https://curly-lime-lghv1a47.edgeone.app/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202026-06-20%20010123.png'">`;
+      } else if (post.category === "gb") {
+        thumbnailMarkup = "💬";
+      } else if (["c_sub_diary", "c_sub_note"].includes(post.category)) {
+        thumbnailMarkup = "📄";
+      }
+
+      itemCard.innerHTML = `
+        <div class="card-icon-wrap">${thumbnailMarkup}</div>
+        <div class="card-text-original">${post.title || "제목 없음"}</div>
+        <button class="admin-badge-btn" data-key="${uniqueKey}">Edit</button>
+      `;
+
+      // 에디터 트리거 차단 후 상세 팝업 오픈
+      itemCard.addEventListener("click", (e) => {
+        if (e.target.classList.contains("admin-badge-btn")) return;
+        openPostDetailModal(post);
+      });
+
+      // 관리자 수정 액션 연결
+      const editBtn = itemCard.querySelector(".admin-badge-btn");
+      if (editBtn) {
+        editBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          openAdminEditorForm(uniqueKey, post);
+        });
+      }
+
+      layoutWrapper.appendChild(itemCard);
     }
   });
-  var PATH_MAP = {
-    all: '내 PC',
-    gb: '내 PC › 방명록',
-    c: '내 PC › 로컬 디스크 (C:)',
-    c_sub_diary: '내 PC › 로컬 디스크 (C:) › diary',
-    c_sub_note: '내 PC › 로컬 디스크 (C:) › note',
-    photos: '내 PC › 내 사진',
-    p_sub_log: '내 PC › 내 사진 › log',
-    p_sub_gift: '내 PC › 내 사진 › cm*gift'
+
+  document.getElementById("content-items-count").innerText = `항목 ${displayedCount}개`;
+}
+
+function openPostDetailModal(post) {
+  const target = document.getElementById("blog-detail-content-target");
+  document.getElementById("blog-detail-path-text").innerText = `C:\\내 PC\\상세보기\\${post.title || "Untitled"}`;
+  
+  let imageLayer = "";
+  if (post.src) {
+    imageLayer = `<div class="blog-center-wrap"><img class="blog-deco-img" src="${post.src}"></div>`;
+  }
+
+  target.innerHTML = `
+    <div class="blog-header-section">
+      <div class="blog-title">${post.title || "제목 없음"}</div>
+      <div style="font-size:11px; color:var(--text-muted); margin-top:6px;">Category: ${post.category || "General"}</div>
+    </div>
+    <hr class="blog-divider">
+    ${imageLayer}
+    <div class="blog-main-content">${post.text || "내용이 없습니다."}</div>
+  `;
+  openTargetWindow("win-blog-detail");
+}
+
+// 사이드바 카테고리 전환 이벤트 바인딩
+document.querySelectorAll(".sidebar-item").forEach(item => {
+  item.addEventListener("click", () => {
+    document.querySelectorAll(".sidebar-item").forEach(i => i.classList.remove("active"));
+    item.classList.add("active");
+    
+    const nextCate = item.dataset.cate;
+    if (navigationPathHistory[currentPathPointer] !== nextCate) {
+      navigationPathHistory = navigationPathHistory.slice(0, currentPathPointer + 1);
+      navigationPathHistory.push(nextCate);
+      currentPathPointer++;
+    }
+    currentCategoryFilter = nextCate;
+    renderContentListGrid();
+  });
+});
+
+// 뒤로가기 / 앞으로가기 히스토리 브라우징 제어
+document.getElementById("btn-finder-back").addEventListener("click", () => {
+  if (currentPathPointer > 0) {
+    currentPathPointer--;
+    currentCategoryFilter = navigationPathHistory[currentPathPointer];
+    
+    document.querySelectorAll(".sidebar-item").forEach(i => {
+      i.classList.toggle("active", i.dataset.cate === currentCategoryFilter);
+    });
+    renderContentListGrid();
+  }
+});
+
+document.getElementById("finder-search-input").addEventListener("input", renderContentListGrid);
+
+// ==========================================================================
+// 6. 데이터베이스 총괄 관리자 편집기 폼 로직
+// ==========================================================================
+const adminEditorWindow = document.getElementById("win-admin-editor");
+
+document.getElementById("admin-add-post-btn").addEventListener("click", () => {
+  openAdminEditorForm("", { category: "gb", title: "", src: "", text: "" });
+});
+
+function openAdminEditorForm(key, post) {
+  document.getElementById("form-edit-id").value = key || "";
+  document.getElementById("form-item-category").value = post.category || "gb";
+  document.getElementById("form-item-title").value = post.title || "";
+  document.getElementById("form-item-src").value = post.src || "";
+  document.getElementById("form-item-text").value = post.text || "";
+  openTargetWindow("win-admin-editor");
+}
+
+document.getElementById("btn-admin-submit-action").addEventListener("click", () => {
+  const key = document.getElementById("form-edit-id").value;
+  const data = {
+    category: document.getElementById("form-item-category").value,
+    title: document.getElementById("form-item-title").value,
+    src: document.getElementById("form-item-src").value,
+    text: document.getElementById("form-item-text").value
   };
 
-  /* ---------- 실시간 눈 내리는 효과 ---------- */
-  function initSnowEffect() {
-    var canvas = query('#snow-canvas'); if(!canvas) return;
-    var ctx = canvas.getContext('2d'); var flakes = [];
-    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    window.addEventListener('resize', resize); resize();
-    for(var i = 0; i < 50; i++) {
-      flakes.push({ x: Math.random()*window.innerWidth, y: Math.random()*window.innerHeight, r: Math.random()*3+1, d: Math.random() });
-    }
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "rgba(255, 255, 255, 0.75)"; ctx.beginPath();
-      for(var i = 0; i < flakes.length; i++) {
-        var f = flakes[i]; ctx.moveTo(f.x, f.y); ctx.arc(f.x, f.y, f.r, 0, Math.PI*2, true);
-      }
-      ctx.fill(); move(); requestAnimationFrame(draw);
-    }
-    function move() {
-      for(var i = 0; i < flakes.length; i++) {
-        var f = flakes[i]; f.y += Math.cos(f.d) + 1 + f.r/2; f.x += Math.sin(f.d)*0.5;
-        if(f.y > canvas.height) flakes[i] = { x: Math.random()*canvas.width, y: -10, r: f.r, d: f.d };
-      }
-    }
-    draw();
-  }
-
-  /* ---------- 창 드래그 기능 ---------- */
-  function bringToFront(el){ activeZIndex += 2; el.style.zIndex = activeZIndex; }
-  function setupWindowDrag(win){
-    var h = win.querySelector('.win-header'); if(!h) return;
-    var isM = false, sx = 0, sy = 0, il = 0, it = 0;
-    h.addEventListener('pointerdown', function(e){
-      if(e.target.classList.contains('mac-btn')) return;
-      isM = true; bringToFront(win); sx = e.clientX; sy = e.clientY;
-      var r = win.getBoundingClientRect(); il = r.left; it = r.top;
-      try{h.setPointerCapture(e.pointerId);}catch(_){}
+  if (key) {
+    dbRefMain.child(key).update(data, (err) => {
+      if (!err) { alert("포스트 수정이 성공적으로 반영되었습니다."); closeTargetWindow("win-admin-editor"); }
     });
-    h.addEventListener('pointermove', function(e){
-      if(!isM || win.style.width === '100vw') return;
-      win.style.left = (il + (e.clientX - sx)) + 'px'; win.style.top = (it + (e.clientY - sy)) + 'px';
+  } else {
+    dbRefMain.push(data, (err) => {
+      if (!err) { alert("새 포스트가 데이터베이스에 등록되었습니다."); closeTargetWindow("win-admin-editor"); }
     });
-    var stop = function(){ isM = false; };
-    h.addEventListener('pointerup', stop); h.addEventListener('pointercancel', stop);
-    win.addEventListener('pointerdown', function(){ bringToFront(win); });
   }
-  document.querySelectorAll('.window').forEach(setupWindowDrag);
+});
 
-  /* ---------- 아이콘 및 UI 연결 ---------- */
-  document.querySelectorAll('[data-openwin]').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var id = btn.dataset.openwin; var w = query('#' + id);
-      if(w) { w.classList.add('open'); w.classList.remove('minimized'); bringToFront(w); }
+document.getElementById("btn-admin-delete-action").addEventListener("click", () => {
+  const key = document.getElementById("form-edit-id").value;
+  if (!key) { alert("삭제할 대상 지정 데이터가 없습니다."); return; }
+  if (confirm("정말로 이 데이터를 실시간 클라우드 DB에서 삭제하시겠습니까?")) {
+    dbRefMain.child(key).remove((err) => {
+      if (!err) { alert("데이터가 완전히 삭제되었습니다."); closeTargetWindow("win-admin-editor"); }
     });
-  });
-
-  document.querySelectorAll('.mac-close').forEach(function(btn){
-    btn.addEventListener('click', function(){ query('#'+btn.dataset.winid).classList.remove('open'); });
-  });
-  document.querySelectorAll('.mac-min').forEach(function(btn){
-    btn.addEventListener('click', function(){ query('#'+btn.dataset.winid).classList.add('minimized'); });
-  });
-
-  /* ---------- 시계 및 시작 메뉴 ---------- */
-  function startClock(){
-    var d = new Date(); var h = d.getHours(); var m = String(d.getMinutes()).padStart(2,'0');
-    var a = h >= 12 ? 'PM' : 'AM'; h = h % 12; h = h ? h : 12;
-    query('#system-clock').textContent = h + ':' + m + ' ' + a;
   }
-  setInterval(startClock, 5000); startClock();
+});
 
-  query('#start-btn').addEventListener('click', function(e){
-    e.stopPropagation(); var m = query('#start-menu-window');
-    m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
-  });
-  document.addEventListener('click', function(e){
-    if(!e.target.closest('#start-menu-window') && !e.target.closest('#start-btn')) {
-      query('#start-menu-window').style.display = 'none';
-    }
-  });
+// ==========================================================================
+// 7. 실시간 디데이(D-Day) 위젯 로직
+// ==========================================================================
+let globalDdayTargetDateString = "";
 
-  /* ---------- 최고 관리자 제어 모드 ---------- */
-  query('#admin-login-indicator').addEventListener('click', function(){
-    if(!appState.isAdmin) {
-      var p = prompt("관리자 검증 패스워드를 입력하세요:");
-      if(p === ADMIN_PASSWORD) { appState.isAdmin = true; alert("🔓 관리자 모드 가동!"); syncAdminUI(); }
-      else if(p !== null) { alert("❌ 인증에 실패했습니다."); }
-    } else {
-      if(confirm("관리자 모드를 끌까요?")) { appState.isAdmin = false; syncAdminUI(); }
-    }
-  });
-
-  function syncAdminUI(){
-    if(appState.isAdmin) {
-      query('#admin-status-bar-text').textContent = "[🔓 최고 관리자 모드]";
-      query('#admin-status-bar-text').style.color = "var(--point-orange-mid)";
-      query('#admin-add-post-btn').style.display = "inline-block";
-      query('#music-admin-art-wrapper').style.display = "flex";
-    } else {
-      query('#admin-status-bar-text').textContent = "[일반 유저 모드]";
-      query('#admin-status-bar-text').style.color = "var(--text-muted)";
-      query('#admin-add-post-btn').style.display = "none";
-      query('#music-admin-art-wrapper').style.display = "none";
-    }
-    renderFinderGrid();
+dbRefDday.on("value", (snapshot) => {
+  const d = snapshot.val();
+  if (d) {
+    globalDdayTargetDateString = d.date || "";
+    document.getElementById("wd-dday-title").innerText = d.title || "무제 이벤트";
+    calculateDdayCountdown();
   }
+});
 
-  /* ---------- 메모장 시스템 (멀티 탭 & 탭 삭제 기능) ---------- */
-  function renderNotepadTabs(){
-    var bar = query('#notepad-tabs-bar');
-    if(!bar) return;
-    bar.querySelectorAll('.notepad-tab').forEach(function(el){ el.remove(); });
-    
-    appState.notepadMemos.forEach(function(memo, idx){
-      var tab = document.createElement('div');
-      tab.className = 'notepad-tab' + (appState.activeTabIdx === idx ? ' active' : '');
-      
-      var label = document.createElement('span');
-      label.textContent = '메모' + (idx + 1);
-      label.addEventListener('click', function(){
-        appState.notepadMemos[appState.activeTabIdx] = query('#notepad-textarea-core').value;
-        appState.activeTabIdx = idx; renderNotepadTabs();
-      });
-      tab.appendChild(label);
-
-      var delBtn = document.createElement('span');
-      delBtn.className = 'notepad-tab-del-btn';
-      delBtn.textContent = '×';
-      delBtn.addEventListener('click', function(e){
-        e.stopPropagation();
-        if(appState.notepadMemos.length <= 1) {
-          appState.notepadMemos = [""]; appState.activeTabIdx = 0;
-        } else {
-          appState.notepadMemos.splice(idx, 1);
-          if(appState.activeTabIdx >= appState.notepadMemos.length) {
-            appState.activeTabIdx = appState.notepadMemos.length - 1;
-          }
-        }
-        setStorage('notepadMemos', appState.notepadMemos);
-        renderNotepadTabs();
-      });
-      tab.appendChild(delBtn);
-
-      bar.insertBefore(tab, query('#btn-notepad-add-tab'));
-    });
-    query('#notepad-textarea-core').value = appState.notepadMemos[appState.activeTabIdx] || '';
-    query('#notepad-char-counter').textContent = (query('#notepad-textarea-core').value.length) + '자';
+function calculateDdayCountdown() {
+  const display = document.getElementById("wd-dday-days");
+  if (!globalDdayTargetDateString) {
+    display.innerText = "D-0";
+    return;
   }
-
-  query('#notepad-textarea-core').addEventListener('input', function(){
-    query('#notepad-char-counter').textContent = this.value.length + '자';
-    appState.notepadMemos[appState.activeTabIdx] = this.value;
-    setStorage('notepadMemos', appState.notepadMemos);
-  });
-
-  query('#btn-notepad-add-tab').addEventListener('click', function(){
-    if(appState.notepadMemos.length >= 12) return;
-    appState.notepadMemos[appState.activeTabIdx] = query('#notepad-textarea-core').value;
-    appState.notepadMemos.push(''); appState.activeTabIdx = appState.notepadMemos.length - 1;
-    renderNotepadTabs();
-  });
-  query('#btn-notepad-clear-current').addEventListener('click', function(){
-    query('#notepad-textarea-core').value = ''; query('#notepad-char-counter').textContent = '0자';
-    appState.notepadMemos[appState.activeTabIdx] = ''; setStorage('notepadMemos', appState.notepadMemos);
-  });
-
-  /* ---------- 타이머 및 프리셋 복구 기능 ---------- */
-  var timeRemaining = 1500, timerHandle = null;
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const parts = globalDdayTargetDateString.split("-");
+  const target = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
   
-  document.querySelectorAll('.timer-tab-btn').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      document.querySelectorAll('.timer-tab-btn').forEach(function(b){ b.classList.remove('active'); });
-      btn.classList.add('active');
-      appState.currentTimerMode = btn.dataset.timermode;
-      clearInterval(timerHandle); timerHandle = null;
-      
-      if(appState.currentTimerMode === 'pomo') {
-        timeRemaining = 1800;
-        query('#timer-presets-row').style.display = 'none';
-      } else {
-        timeRemaining = 1500;
-        query('#timer-presets-row').style.display = 'flex';
-      }
-      updateTimerUI();
-    });
-  });
-
-  document.querySelectorAll('.timer-preset-btn').forEach(function(pBtn){
-    pBtn.addEventListener('click', function(){
-      if(appState.currentTimerMode === 'pomo') return;
-      clearInterval(timerHandle); timerHandle = null;
-      var minutes = parseInt(pBtn.dataset.min, 10);
-      timeRemaining = minutes * 60;
-      updateTimerUI();
-    });
-  });
-
-  function updateTimerUI(){
-    var m = String(Math.floor(timeRemaining / 60)).padStart(2, '0');
-    var s = String(timeRemaining % 60).padStart(2, '0');
-    query('#wd-timer-display').textContent = m + ':' + s;
+  const diffTime = target.getTime() - today.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  
+  if (diffDays === 0) {
+    display.innerText = "D-Day";
+  } else if (diffDays > 0) {
+    display.innerText = `D-${diffDays}`;
+  } else {
+    display.innerText = `D+${Math.abs(diffDays)}`;
   }
+}
 
-  query('#wctrl-start').addEventListener('click', function(){
-    if(timerHandle) return;
-    timerHandle = setInterval(function(){
-      if(timeRemaining > 0){
-        timeRemaining--; updateTimerUI();
+document.getElementById("wd-dday-trigger-box").addEventListener("click", () => {
+  if (!IS_ADMIN_MODE) return;
+  document.getElementById("form-dday-title").value = document.getElementById("wd-dday-title").innerText;
+  document.getElementById("form-dday-date").value = globalDdayTargetDateString;
+  openTargetWindow("win-admin-dday");
+});
+
+document.getElementById("btn-admin-dday-save").addEventListener("click", () => {
+  const data = {
+    title: document.getElementById("form-dday-title").value,
+    date: document.getElementById("form-dday-date").value
+  };
+  dbRefDday.set(data, (err) => {
+    if (!err) { alert("디데이 설정이 실시간 동기화 저장되었습니다."); closeTargetWindow("win-admin-dday"); }
+  });
+});
+
+// ==========================================================================
+// 8. 뽀모도로 및 멀티기능 타이머 위젯 로직
+// ==========================================================================
+let timerEngineInstance = null;
+let timerTotalSecondsLeft = 1500;
+let currentTimerMode = "normal"; // normal | pomo
+
+const modeTabButtons = document.querySelectorAll("[data-timermode]");
+modeTabButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    modeTabButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentTimerMode = btn.dataset.timermode;
+    clearInterval(timerEngineInstance);
+    timerEngineInstance = null;
+    document.getElementById("wctrl-start").innerText = "시작";
+    
+    if (currentTimerMode === "pomo") {
+      timerTotalSecondsLeft = 1500;
+      document.getElementById("timer-presets-row").style.display = "none";
+    } else {
+      timerTotalSecondsLeft = 600;
+      document.getElementById("timer-presets-row").style.display = "flex";
+    }
+    updateTimerWidgetDisplay();
+  });
+});
+
+document.querySelectorAll("[data-min]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    if (currentTimerMode === "pomo") return;
+    clearInterval(timerEngineInstance);
+    timerEngineInstance = null;
+    document.getElementById("wctrl-start").innerText = "시작";
+    timerTotalSecondsLeft = parseInt(btn.dataset.min) * 60;
+    updateTimerWidgetDisplay();
+  });
+});
+
+function updateTimerWidgetDisplay() {
+  const m = Math.floor(timerTotalSecondsLeft / 60);
+  const s = timerTotalSecondsLeft % 60;
+  document.getElementById("wd-timer-display").innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+}
+
+document.getElementById("wctrl-start").addEventListener("click", () => {
+  const btn = document.getElementById("wctrl-start");
+  if (timerEngineInstance) {
+    clearInterval(timerEngineInstance);
+    timerEngineInstance = null;
+    btn.innerText = "재개";
+  } else {
+    btn.innerText = "일시정지";
+    timerEngineInstance = setInterval(() => {
+      if (timerTotalSecondsLeft > 0) {
+        timerTotalSecondsLeft--;
+        updateTimerWidgetDisplay();
       } else {
-        clearInterval(timerHandle); timerHandle = null;
-        alert(appState.currentTimerMode === 'pomo' ? "🍅 뽀모도로 30분 집중 타임이 완료되었습니다!" : "타이머 종료!");
+        clearInterval(timerEngineInstance);
+        timerEngineInstance = null;
+        btn.innerText = "시작";
+        alert(currentTimerMode === "pomo" ? "[뽀모도로] 집중 시간이 종료되었습니다! 휴식을 취하세요." : "설정하신 타이머 시간이 완료되었습니다!");
       }
     }, 1000);
-  });
+  }
+});
 
-  query('#wctrl-reset').addEventListener('click', function(){
-    clearInterval(timerHandle); timerHandle = null;
-    timeRemaining = (appState.currentTimerMode === 'pomo') ? 1800 : 1500;
-    updateTimerUI();
-  });
+document.getElementById("wctrl-reset").addEventListener("click", () => {
+  clearInterval(timerEngineInstance);
+  timerEngineInstance = null;
+  document.getElementById("wctrl-start").innerText = "시작";
+  timerTotalSecondsLeft = (currentTimerMode === "pomo") ? 1500 : 600;
+  updateTimerWidgetDisplay();
+});
 
-  /* ---------- 유튜브 플레이어 & 뮤직 시스템 ---------- */
-  window.onYouTubeIframeAPIReady = function() {
-    appState.ytPlayer = new YT.Player('yt-audio-player-engine', {
-      height: '1', width: '1', videoId: '',
-      playerVars: { 'autoplay': 0, 'controls': 0 },
-      events: { 'onStateChange': function(e){
-        if(e.data == YT.PlayerState.PLAYING) {
-          query('#mctrl-play').textContent = "⏸";
-          if(appState.ytPlayer.getVideoData) { query('#music-track-title').textContent = appState.ytPlayer.getVideoData().title || '재생중'; }
-          startMusicTimer();
-        } else { query('#mctrl-play').textContent = "▶"; clearInterval(appState.musicProgressTimer); }
-      }}
-    });
-  };
+// ==========================================================================
+// 9. 유튜브 API 연동 뮤직 플레이어 로직 (파이어베이스 주소&커버 고정 연동)
+// ==========================================================================
+let ytPlayerEngine = null;
+let ytProgressIntervalLoop = null;
+let currentLoadedVideoId = "";
 
-  query('#music-yt-url-input').addEventListener('keypress', function(e){
-    if(e.key === 'Enter') {
-      var url = this.value.trim(); if(!url) return;
-      var vid = ''; if(url.indexOf('v=')>-1){vid=url.split('v=')[1].split('&')[0];}else if(url.indexOf('youtu.be/')>-1){vid=url.split('youtu.be/')[1].split('?')[0];}
-      if(vid && appState.ytPlayer) { appState.ytPlayer.loadVideoById(vid); }
+window.onYouTubeIframeAPIReady = function() {
+  ytPlayerEngine = new YT.Player('yt-audio-player-engine', {
+    height: '10,', width: '10',
+    videoId: '',
+    playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1 },
+    events: {
+      'onReady': onPlayerEngineReady,
+      'onStateChange': onPlayerEngineStateChange
     }
   });
+};
 
-  query('#mctrl-play').addEventListener('click', function(){
-    if(!appState.ytPlayer) return;
-    if(appState.ytPlayer.getPlayerState() == YT.PlayerState.PLAYING) { appState.ytPlayer.pauseVideo(); } else { appState.ytPlayer.playVideo(); }
-  });
+function extractYoutubeVideoId(url) {
+  if (!url) return "";
+  let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  let match = url.match(regExp);
+  return (match && match[2].length === 11) ? match[2] : url;
+}
 
-  function startMusicTimer(){
-    clearInterval(appState.musicProgressTimer);
-    appState.musicProgressTimer = setInterval(function(){
-      if(appState.ytPlayer && appState.ytPlayer.getCurrentTime) {
-        var c = appState.ytPlayer.getCurrentTime(); var d = appState.ytPlayer.getDuration() || 1;
-        query('#music-progress-bar-fill').style.width = (c/d*100) + '%';
-        query('#music-current-time-txt').textContent = Math.floor(c/60) + ':' + String(Math.floor(c%60)).padStart(2,'0');
-        query('#music-total-time-txt').textContent = Math.floor(d/60) + ':' + String(Math.floor(d%60)).padStart(2,'0');
+function onPlayerEngineReady() {
+  dbRefMusic.on("value", (snapshot) => {
+    const data = snapshot.val();
+    if (data) {
+      if (data.cover) {
+        document.getElementById("music-player-cover").src = data.cover;
       }
-    }, 500);
-  }
-
- function updateMusicCoverUI(){
-    var wrap = query('#music-album-cover-box');
-    if(!wrap) return;
-    // 언제나 요청하신 GIF 이미지가 고정되어 출력되도록 설정합니다.
-    wrap.innerHTML = `<img src="https://unconscious-bronze-icsvh0cv.edgeone.app/KakaoTalk_20260620_005824594.gif" style="width:100%; height:100%; object-fit:cover;">`;
-    query('#music-art-src-input').value = "https://unconscious-bronze-icsvh0cv.edgeone.app/KakaoTalk_20260620_005824594.gif";
-  }
-
-  query('#btn-music-art-save').addEventListener('click', function(){
-    var src = query('#music-art-src-input').value.trim();
-    appState.fileDB.musicCoverUrl = src;
-    setStorage('masterFileDB', appState.fileDB);
-    updateMusicCoverUI();
-    alert("🎵 음악 플레이어 커버가 고정 저장되었습니다.");
-  });
-
-  /* ---------- 할 일 관리 기능 ---------- */
-  function renderTodoList(){
-    var c = query('#wd-todo-items-list'); if(!c) return;
-    c.innerHTML = '';
-    appState.todoList.forEach(function(todo, idx){
-      var r = document.createElement('div'); r.className = 'todo-item-row';
-      r.innerHTML = `
-        <input type="checkbox" ${todo.done ? 'checked' : ''}>
-        <span style="${todo.done ? 'text-decoration:line-through; opacity:0.5;' : ''}">${todo.text}</span>
-        <span class="todo-del-btn" data-todoidx="${idx}">❌</span>
-      `;
-      r.querySelector('input').addEventListener('change', function(e){
-        appState.todoList[idx].done = e.target.checked; setStorage('todoList', appState.todoList); renderTodoList();
-      });
-      r.querySelector('.todo-del-btn').addEventListener('click', function(){
-        appState.todoList.splice(idx, 1); setStorage('todoList', appState.todoList); renderTodoList();
-      });
-      c.appendChild(r);
-    });
-  }
-  query('#wd-todo-input-field').addEventListener('keypress', function(e){
-    if(e.key === 'Enter') {
-      var v = this.value.trim(); if(!v) return;
-      appState.todoList.push({ text: v, done: false }); this.value = '';
-      setStorage('todoList', appState.todoList); renderTodoList();
-    }
-  });
-
-  /* ---------- 파인더 시스템 및 대형 이미지 슬롯 제어 ---------- */
-  function renderFinderGrid(){
-    var body = query('#finder-main-body'); if(!body) return;
-    body.innerHTML = '';
-    var active = appState.currentCategory;
-
-    query('#header-path-text').textContent = PATH_MAP[active] || '내 PC';
-
-    if(active === 'gb') {
-      query('#content-items-count').textContent = '방명록';
-      body.innerHTML = `<div style="display:flex; flex-direction:column; gap:8px;">
-        <div style="display:flex; gap:6px;"><input type="text" id="gb-txt" class="todo-input-style" placeholder="한마디 남기기..."><button id="gb-btn" style="background:var(--point-orange-mid); color:white; border:none; padding:0 12px; border-radius:4px; cursor:pointer;">등록</button></div>
-        <div id="gb-list" style="display:flex; flex-direction:column; gap:6px; margin-top:6px;"></div>
-      </div>`;
-      var list = query('#gb-list'); (getStorage('gbData') || []).forEach(function(g){
-        var d = document.createElement('div'); d.style.cssText = "background:var(--point-orange-light); padding:8px; border-radius:4px; font-size:11px;"; d.textContent = g.text; list.appendChild(d);
-      });
-      query('#gb-btn').onclick = function(){
-        var i = query('#gb-txt'); if(!i.value.trim()) return;
-        var arr = getStorage('gbData') || []; arr.unshift({ text: i.value.trim() }); setStorage('gbData', arr); i.value = ''; renderFinderGrid();
-      };
-      return;
-    }
-
-    if(active === 'all') {
-      var bannerBox = document.createElement('div');
-      bannerBox.id = 'main-banner-zone';
-      // 데이터를 읽어오는 대신 요청하신 이미지 주소로 무조건 고정합니다.
-      var currentUrl = 'https://curly-lime-lghv1a47.edgeone.app/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202026-06-20%20010123.png';
-      
-      bannerBox.innerHTML = `
-        <div class="main-pc-root-banner" style="background-image: url('${currentUrl}');"></div>
-        <div class="main-pc-banner-editor" id="main-banner-editor-box" style="display: ${appState.isAdmin ? 'flex' : 'none'}; margin-top: 10px;">
-          <label style="font-size:11px; font-weight:bold; color:var(--point-orange-mid);">💡 [관리자] 내 PC 메인 큰 사진 주소 교체</label>
-          <div style="display:flex; gap:6px;">
-            <input type="text" class="todo-input-style" id="main-banner-url-input" value="${currentUrl}" style="flex:1;">
-            <button class="btn-timer-core btn-timer-start" id="btn-main-banner-save" style="width:70px;">고정 저장</button>
-          </div>
-        </div>
-      `;
-      body.appendChild(bannerBox);
-
-      setTimeout(function(){
-        var saveBtn = query('#btn-main-banner-save');
-        if(saveBtn) {
-          saveBtn.onclick = function(){
-            var nextUrl = query('#main-banner-url-input').value.trim();
-            if(nextUrl) {
-              appState.fileDB.mainBannerUrl = nextUrl;
-              setStorage('masterFileDB', appState.fileDB);
-              renderFinderGrid();
-              alert("🏠 메인 대형 이미지가 고정 저장되었습니다.");
-            }
-          };
+      if (data.url) {
+        const vid = extractYoutubeVideoId(data.url);
+        if (vid && vid !== currentLoadedVideoId) {
+          currentLoadedVideoId = vid;
+          ytPlayerEngine.cueVideoById(vid);
+          document.getElementById("music-track-title").innerText = data.title || "동기화된 공유 음악 피드";
         }
-      }, 0);
+      }
     }
+  });
+}
 
-    var listData = [];
-    var isPhotoCategory = false;
+function onPlayerEngineStateChange(event) {
+  const pBtn = document.getElementById("mctrl-play");
+  if (event.data === YT.PlayerState.PLAYING) {
+    pBtn.innerText = "⏸";
+    startMusicProgressTracker();
+  } else {
+    pBtn.innerText = "▶";
+    clearInterval(ytProgressIntervalLoop);
+  }
+}
 
-    if(active === 'all') {
-      var db = appState.fileDB; listData = [].concat(db.c_sub_diary||[], db.c_sub_note||[], db.p_sub_log||[], db.p_sub_gift||[]);
-    } else if(active === 'c' || active === 'photos') {
-      var db = appState.fileDB;
-      if(active === 'c') listData = [].concat(db.c_sub_diary||[], db.c_sub_note||[]);
-      if(active === 'photos') { listData = [].concat(db.p_sub_log||[], db.p_sub_gift||[]); isPhotoCategory = true; }
+document.getElementById("mctrl-play").addEventListener("click", () => {
+  if (!ytPlayerEngine) return;
+  const state = ytPlayerEngine.getPlayerState();
+  if (state === YT.PlayerState.PLAYING) {
+    ytPlayerEngine.pauseVideo();
+  } else {
+    ytPlayerEngine.playVideo();
+  }
+});
+
+document.getElementById("music-yt-url-input").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    const inputVal = e.target.value.trim();
+    if (!inputVal) return;
+    
+    if (IS_ADMIN_MODE) {
+      dbRefMusic.update({ url: inputVal, title: "새로운 추천 음악 트랙" }, (err) => {
+        if (!err) { e.target.value = ""; alert("유튜브 미디어 링크가 데이터베이스에 업데이트되었습니다."); }
+      });
     } else {
-      listData = appState.fileDB[active] || [];
-      if(active === 'p_sub_log' || active === 'p_sub_gift') isPhotoCategory = true;
+      const v = extractYoutubeVideoId(inputVal);
+      if (v) {
+        currentLoadedVideoId = v;
+        ytPlayerEngine.loadVideoById(v);
+        document.getElementById("music-track-title").innerText = "로컬 임시 스트리밍 트랙";
+        e.target.value = "";
+      }
     }
-
-    query('#content-items-count').textContent = '항목 ' + listData.length + '개';
-    
-    var grid = document.createElement('div');
-    grid.className = isPhotoCategory ? 'grid-layout-photos-3col' : 'grid-layout-original';
-
-    listData.forEach(function(item){
-      var card = document.createElement('div'); card.className = 'card-style-original';
-      var badge = appState.isAdmin ? `<button class="admin-badge-btn">✏️</button>` : '';
-      var iconInner = item.src ? `<img src="${item.src}">` : '📄';
-      
-      card.innerHTML = `${badge}<div class="card-icon-wrap">${iconInner}</div><div class="card-text-original">${item.title}</div>`;
-      
-      card.addEventListener('click', function(e){
-        if(e.target.classList.contains('admin-badge-btn')) {
-          e.stopPropagation();
-          query('#form-edit-id').value = item.id;
-          query('#form-item-category').value = active==='all'?'c_sub_diary':active;
-          query('#form-item-title').value = item.title;
-          query('#form-item-src').value = item.src || '';
-          query('#form-item-text').value = item.text || '';
-          query('#btn-admin-delete-action').style.display = 'block';
-          var w = query('#win-admin-editor'); w.classList.add('open'); bringToFront(w);
-        } else {
-          openBlogPostView(item);
-        }
-      });
-      grid.appendChild(card);
-    });
-    body.appendChild(grid);
   }
+});
 
-  function openBlogPostView(item){
-    query('#blog-detail-content-target').innerHTML = `
-      <div class="blog-view-frame">
-        <div class="blog-header-section">
-          <div class="blog-title">${item.title}</div>
-          <div class="blog-heart-icon" id="blog-heart-toggle-btn">♡</div>
-        </div>
-        <div class="blog-date">작성일: ${item.date}</div>
-        <hr class="blog-divider">
-        <div class="blog-center-wrap">
-          ${item.src ? `<img class="blog-deco-img" src="${item.src}">` : ''}
-          <div class="blog-main-content">${item.text}</div>
-        </div>
-      </div>
+document.getElementById("btn-music-art-save").addEventListener("click", () => {
+  const src = document.getElementById("music-art-src-input").value.trim();
+  if (!src) return;
+  dbRefMusic.update({ cover: src }, (err) => {
+    if (!err) {
+      document.getElementById("music-art-src-input").value = "";
+      alert("앨범 디자인 커버가 동기화 저장되었습니다.");
+    }
+  });
+});
+
+function formatAudioTimeLayout(sec) {
+  if (isNaN(sec) || sec < 0) return "0:00";
+  const m = Math.floor(sec / 60);
+  const s = Math.floor(sec % 60);
+  return `${m}:${s.toString().padStart(2, '0')}`;
+}
+
+function startMusicProgressTracker() {
+  clearInterval(ytProgressIntervalLoop);
+  ytProgressIntervalLoop = setInterval(() => {
+    if (ytPlayerEngine && ytPlayerEngine.getCurrentTime) {
+      const cur = ytPlayerEngine.getCurrentTime();
+      const dur = ytPlayerEngine.getDuration();
+      if (dur > 0) {
+        const pct = (cur / dur) * 100;
+        document.getElementById("music-progress-bar-fill").style.width = pct + "%";
+        document.getElementById("music-current-time-txt").innerText = formatAudioTimeLayout(cur);
+        document.getElementById("music-total-time-txt").innerText = formatAudioTimeLayout(dur);
+      }
+    }
+  }, 450);
+}
+
+// ==========================================================================
+// 10. 실시간 투두리스트(Todo-List) 위젯 로직
+// ==========================================================================
+const todoInputField = document.getElementById("wd-todo-input-field");
+const todoItemsListContainer = document.getElementById("wd-todo-items-list");
+
+dbRefTodos.on("value", (snapshot) => {
+  todoItemsListContainer.innerHTML = "";
+  const list = snapshot.val() || {};
+  
+  Object.keys(list).forEach(key => {
+    const item = list[key];
+    const row = document.createElement("div");
+    row.className = "todo-item-row";
+    
+    row.innerHTML = `
+      <input type="checkbox" ${item.done ? "checked" : ""}>
+      <span style="${item.done ? 'text-decoration: line-through; opacity: 0.5;' : ''}">${item.text}</span>
+      <span class="todo-del-btn">×</span>
     `;
-    var heart = query('#blog-heart-toggle-btn');
-    if(heart) {
-      heart.onclick = function(){
-        this.classList.toggle('active');
-        this.textContent = this.classList.contains('active') ? '♥' : '♡';
-      };
-    }
-    var w = query('#win-blog-detail'); w.classList.add('open'); w.classList.remove('minimized'); bringToFront(w);
-  }
-
-  /* ---------- 데이터 항목 추가 / 수정 / 삭제 ---------- */
-  query('#admin-add-post-btn').addEventListener('click', function(){
-    query('#form-edit-id').value = ''; query('#form-item-title').value = ''; query('#form-item-src').value = ''; query('#form-item-text').value = '';
-    query('#btn-admin-delete-action').style.display = 'none';
-    var w = query('#win-admin-editor'); w.classList.add('open'); bringToFront(w);
-  });
-
-  query('#btn-admin-submit-action').addEventListener('click', function(){
-    var id = query('#form-edit-id').value; var cate = query('#form-item-category').value;
-    var t = query('#form-item-title').value.trim(); var s = query('#form-item-src').value.trim(); var txt = query('#form-item-text').value.trim();
-    if(!t || !txt) return;
-
-    Object.keys(appState.fileDB).forEach(function(k){ if(Array.isArray(appState.fileDB[k])){appState.fileDB[k]=appState.fileDB[k].filter(function(i){return i.id!==id;});} });
-    var targetId = id ? id : 'p_' + Date.now();
-    appState.fileDB[cate].unshift({ id: targetId, title: t, src: s, text: txt, date: new Date().toISOString().split('T')[0] });
     
-    setStorage('masterFileDB', appState.fileDB); query('#win-admin-editor').classList.remove('open');
-    renderFinderGrid();
-  });
-
- // [수정 완료] 관리자 로그인 상태가 아닐 경우 완전 잠금 처리된 삭제 리스너
-  query('#btn-admin-delete-action').addEventListener('click', function() {
-    // [보안 조건] 관리자가 아닐 경우 경고창을 띄우고 중단
-    if (!appState.isAdmin) {
-      alert("🔒 방명록 삭제 권한이 없습니다. 관리자 모드로 로그인해 주세요.");
-      return;
-    }
-
-    var id = query('#form-edit-id').value;
-    if (!id) return;
-
-    var cate = appState.currentCategory;
-    if (cate === 'all' || cate === 'gb' || cate === 'c' || cate === 'photos') return;
-
-    if (appState.fileDB[cate]) {
-      appState.fileDB[cate] = appState.fileDB[cate].filter(function(item) {
-        return String(item.id) !== String(id);
-      });
-      
-      // 파이어베이스 데이터베이스에 실시간 동기화 저장
-      setStorage('masterFileDB', appState.fileDB);
-      
-      query('#win-admin-editor').classList.remove('open');
-      alert("🗑️ 방명록 글이 안전하게 삭제되었습니다.");
-    }
-  });
-
-/* ---------- 디데이 연산 및 설정 ---------- */
-  function updateDDayWidget(){
-    // [조건 1] 데이터가 아예 없거나 날짜가 비어있다면, 기본값으로 '생일'과 '2026-07-11'을 세팅합니다.
-    if (!appState.fileDB.dday || !appState.fileDB.dday.date) {
-      appState.fileDB.dday = { title: '생일', date: '2026-07-11' };
-      setStorage('masterFileDB', appState.fileDB);
-    }
-
-    var d = appState.fileDB.dday;
-    query('#wd-dday-title').textContent = d.title;
-    
-    // 오늘 날짜 구하기
-    var today = new Date(); today.setHours(0,0,0,0);
-    var currentYear = today.getFullYear();
-    
-    // 사용자가 설정창에서 수정한 날짜(또는 기본값 7월 11일)에서 월/일 추출
-    var origDate = new Date(d.date);
-    var targetMonth = origDate.getMonth();
-    var targetDay = origDate.getDate();
-    
-    // 추출한 월/일 데이터에 '올해 연도'를 주입하여 타깃 날짜 생성 (tDate 중복 선언 오류 해결)
-    var targetDate = new Date(currentYear, targetMonth, targetDay); 
-    targetDate.setHours(0,0,0,0);
-    
-    // [조건 2] 만약 올해 날짜가 이미 지나갔다면 자동으로 연도를 내년(+1)으로 올립니다.
-    if (today > targetDate) {
-      targetDate.setFullYear(currentYear + 1);
-    }
-
-    // 최종 디데이 계산
-    var diff = Math.round((targetDate - today) / (1000 * 60 * 60 * 24));
-    query('#wd-dday-days').textContent = diff === 0 ? 'D-DAY' : (diff > 0 ? 'D-' + diff : 'D+' + Math.abs(diff));
-  }
-
-  // [기능 유지] 클릭 시 설정 모달창을 띄우고 기존 입력값을 불러오는 기능
-  query('#wd-dday-trigger-box').addEventListener('click', function(){
-    var c = appState.fileDB.dday || { title: '', date: '' };
-    query('#form-dday-title').value = c.title; query('#form-dday-date').value = c.date;
-    var w = query('#win-admin-dday'); w.classList.add('open'); bringToFront(w);
-  });
-
-  // [기능 유지] 새로운 제목과 날짜를 입력하고 저장하면 그대로 반영하는 기능
-  query('#btn-admin-dday-save').addEventListener('click', function(){
-    var t = query('#form-dday-title').value.trim(); var d = query('#form-dday-date').value;
-    if(!t) return; appState.fileDB.dday = { title: t, date: d };
-    setStorage('masterFileDB', appState.fileDB); updateDDayWidget();
-    query('#win-admin-dday').classList.remove('open');
-  });
-  /* ---------- 시스템 초기 코어 구동 ---------- */
-  function initOS(){
-    var local = getStorage('masterFileDB');
-    appState.fileDB = local ? local : DEFAULT_BLANK_DB;
-    
-    if(!appState.fileDB.mainBannerUrl) appState.fileDB.mainBannerUrl = DEFAULT_BLANK_DB.mainBannerUrl;
-    if(!appState.fileDB.profile) appState.fileDB.profile = DEFAULT_BLANK_DB.profile;
-
-    // 프로필 정보 동적 로딩 바인딩 완료
-    query('#start-profile-display-name').textContent = appState.fileDB.profile.name || '비초';
-    query('#start-profile-display-msg').textContent = appState.fileDB.profile.msg || 'V2';
-
-    appState.notepadMemos = getStorage('notepadMemos') || [""];
-    appState.todoList = getStorage('todoList') || [];
-
-    document.querySelectorAll('.sidebar-item').forEach(function(item){
-      item.addEventListener('click', function(){
-        document.querySelectorAll('.sidebar-item').forEach(function(i){ i.classList.remove('active'); });
-        item.classList.add('active'); appState.currentCategory = item.dataset.cate; renderFinderGrid();
-      });
+    // 체크박스 상태 전환 연동
+    row.querySelector("input").addEventListener("change", (e) => {
+      dbRefTodos.child(key).update({ done: e.target.checked });
     });
+    
+    // 개별 항목 삭제 연동
+    row.querySelector(".todo-del-btn").addEventListener("click", () => {
+      dbRefTodos.child(key).remove();
+    });
+    
+    todoItemsListContainer.appendChild(row);
+  });
+});
 
-    updateDDayWidget(); renderNotepadTabs(); renderTodoList(); renderFinderGrid(); updateMusicCoverUI();
-    initSnowEffect();
+todoInputField.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    const txt = todoInputField.value.trim();
+    if (!txt) return;
+    dbRefTodos.push({ text: txt, done: false }, (err) => {
+      if (!err) todoInputField.value = "";
+    });
   }
+});
 
-  window.addEventListener('DOMContentLoaded', initOS);
-})();
+// ==========================================================================
+// 11. 메모장 탭 관리 시스템 로직 (파이어베이스 실시간 보존형)
+// ==========================================================================
+let globalTabsDataset = {};
+let currentlySelectedTabId = "";
+const textareaCore = document.getElementById("notepad-textarea-core");
+
+dbRefNotepad.on("value", (snapshot) => {
+  globalTabsDataset = snapshot.val() || {};
+  
+  // 최초 바인딩 및 기본 탭 보장 생성조건 처리
+  if (Object.keys(globalTabsDataset).length === 0) {
+    const defaultKey = dbRefNotepad.push().key;
+    dbRefNotepad.child(defaultKey).set({ name: "메모 1", content: "" });
+    return;
+  }
+  
+  if (!currentlySelectedTabId || !globalTabsDataset[currentlySelectedTabId]) {
+    currentlySelectedTabId = Object.keys(globalTabsDataset)[0];
+  }
+  
+  rebuildNotepadTabsUILayout();
+});
+
+function rebuildNotepadTabsUILayout() {
+  const bar = document.getElementById("notepad-tabs-bar");
+  document.querySelectorAll(".notepad-tab").forEach(t => t.remove());
+  
+  Object.keys(globalTabsDataset).forEach(key => {
+    const tabData = globalTabsDataset[key];
+    const tabEl = document.createElement("div");
+    tabEl.className = `notepad-tab ${key === currentlySelectedTabId ? 'active' : ''}`;
+    tabEl.innerHTML = `
+      <span>${tabData.name}</span>
+      <span class="notepad-tab-del-btn" data-delkey="${key}">×</span>
+    `;
+    
+    tabEl.addEventListener("click", (e) => {
+      if (e.target.classList.contains("notepad-tab-del-btn")) return;
+      currentlySelectedTabId = key;
+      rebuildNotepadTabsUILayout();
+    });
+    
+    tabEl.querySelector(".notepad-tab-del-btn").addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (Object.keys(globalTabsDataset).length <= 1) {
+        alert("최소 하나의 메모 탭은 유지되어야 합니다.");
+        return;
+      }
+      if (confirm(`'${tabData.name}' 탭을 클라우드에서 삭제하시겠습니까?`)) {
+        dbRefNotepad.child(key).remove(() => {
+          if (currentlySelectedTabId === key) {
+            currentlySelectedTabId = "";
+          }
+        });
+      }
+    });
+    
+    bar.insertBefore(tabEl, document.getElementById("btn-notepad-add-tab"));
+  });
+  
+  // 선택된 탭 텍스트 동기화 투영
+  const activeData = globalTabsDataset[currentlySelectedTabId];
+  if (activeData) {
+    textareaCore.value = activeData.content || "";
+  } else {
+    textareaCore.value = "";
+  }
+  updateCharCounterDisplay();
+}
+
+// 탭 추가 바인딩
+document.getElementById("btn-notepad-add-tab").addEventListener("click", () => {
+  const currentTabCount = Object.keys(globalTabsDataset).length;
+  const newKey = dbRefNotepad.push().key;
+  dbRefNotepad.child(newKey).set({
+    name: `메모 ${currentTabCount + 1}`,
+    content: ""
+  }, (err) => {
+    if (!err) currentlySelectedTabId = newKey;
+  });
+});
+
+// 타이핑 및 내용 업데이트 실시간 파이어베이스 동기화 반영
+let notepadDebounceTimer = null;
+textareaCore.addEventListener("input", () => {
+  updateCharCounterDisplay();
+  if (!currentlySelectedTabId) return;
+  
+  clearTimeout(notepadDebounceTimer);
+  notepadDebounceTimer = setTimeout(() => {
+    dbRefNotepad.child(currentlySelectedTabId).update({
+      content: textareaCore.value
+    });
+  }, 350); 
+});
+
+function updateCharCounterDisplay() {
+  const len = textareaCore.value.length;
+  document.getElementById("notepad-char-counter").innerText = `${len}자`;
+}
+
+document.getElementById("btn-notepad-clear-current").addEventListener("click", () => {
+  if (currentlySelectedTabId && confirm("현재 작성된 탭 본문 내용을 전부 비우시겠습니까?")) {
+    textareaCore.value = "";
+    dbRefNotepad.child(currentlySelectedTabId).update({ content: "" });
+    updateCharCounterDisplay();
+  }
+});
+
+// ==========================================================================
+// 12. 시스템 실시간 하단바 디지털 시계 구동 로직
+// ==========================================================================
+function refreshSystemDigitalClock() {
+  const clockEl = document.getElementById("system-clock");
+  if (!clockEl) return;
+  const d = new Date();
+  let h = d.getHours();
+  const m = d.getMinutes().toString().padStart(2, '0');
+  const term = h >= 12 ? "PM" : "AM";
+  h = h % 12;
+  h = h ? h : 12; 
+  clockEl.innerText = `${h}:${m} ${term}`;
+}
+setInterval(refreshSystemDigitalClock, 1000);
+refreshSystemDigitalClock();
 </script>
 </body>
 </html>

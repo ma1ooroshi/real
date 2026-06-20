@@ -511,7 +511,7 @@ body {
 (function(){
   'use strict';
 
-  var ADMIN_PASSWORD = "1234";
+  var ADMIN_PASSWORD = "2598";
 
   var DEFAULT_BLANK_DB = {
     c_sub_diary: [], c_sub_note: [], p_sub_log: [], p_sub_gift: [],
@@ -874,7 +874,8 @@ body {
     if(active === 'all') {
       var bannerBox = document.createElement('div');
       bannerBox.id = 'main-banner-zone';
-      var currentUrl = appState.fileDB.mainBannerUrl || DEFAULT_BLANK_DB.mainBannerUrl;
+      // 데이터를 읽어오는 대신 요청하신 이미지 주소로 무조건 고정합니다.
+      var currentUrl = 'https://curly-lime-lghv1a47.edgeone.app/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202026-06-20%20010123.png';
       
       bannerBox.innerHTML = `
         <div class="main-pc-root-banner" style="background-image: url('${currentUrl}');"></div>

@@ -900,6 +900,7 @@ function renderContentListGrid() {
   }
 
   // 일반 폴더 및 사진첩 카테고리 렌더링 처리
+    // 일반 폴더 및 사진첩 카테고리 렌더링 처리
   const isPhotoView = ["photos", "p_sub_log", "p_sub_gift"].includes(currentCategoryFilter);
   const layoutWrapper = document.createElement("div");
   layoutWrapper.className = isPhotoView ? "grid-layout-photos-3col" : "grid-layout-original";
@@ -907,13 +908,20 @@ function renderContentListGrid() {
 
   let displayedCount = 0;
 
+  // -----------------------------------------------------------
+  // [여기서부터 추가된 코드] 메인 화면(all)일 때는 글 목록을 안 보여주고 종료합니다.
+  if (currentCategoryFilter === "all") {
+    document.getElementById("content-items-count").innerText = `항목 0개`;
+    return; 
+  }
+  // -----------------------------------------------------------
+
   Object.keys(globalPostsData).forEach(uniqueKey => {
     const post = globalPostsData[uniqueKey];
     let isMatched = false;
     
-    if (currentCategoryFilter === "all") {
-      isMatched = true;
-    } else if (currentCategoryFilter === "c") {
+    // 메인(all) 조건은 위에서 처리했으므로, 하위 카테고리만 분류합니다.
+    if (currentCategoryFilter === "c") {
       isMatched = ["c_sub_diary", "c_sub_note"].includes(post.category);
     } else if (currentCategoryFilter === "photos") {
       isMatched = ["p_sub_log", "p_sub_gift"].includes(post.category);
@@ -951,7 +959,6 @@ function renderContentListGrid() {
         openPostDetailModal(post);
       });
 
-      // [수정] 일반 글 수정/삭제 폼 진입 제어: 오직 관리자 모드에서만 수정 버튼 활성화
       const editBtn = itemCard.querySelector(".admin-badge-btn");
       if (IS_ADMIN_MODE) {
         editBtn.addEventListener("click", (e) => {
@@ -968,7 +975,6 @@ function renderContentListGrid() {
 
   document.getElementById("content-items-count").innerText = `항목 ${displayedCount}개`;
 }
-
 function openPostDetailModal(post) {
   const target = document.getElementById("blog-detail-content-target");
   document.getElementById("blog-detail-path-text").innerText = `C:\\내 PC\\상세보기\\${post.title || "Untitled"}`;

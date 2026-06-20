@@ -524,13 +524,14 @@ body {
     musicCoverUrl: 'https://curly-lime-lghv1a47.edgeone.app/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202026-06-20%20010123.png'
   };
 
+  // 2. 전체 앱 상태 관리 변수
   var appState = {
     isAdmin: false, currentCategory: 'all', currentTimerMode: 'normal',
     fileDB: {}, todoList: [], notepadMemos: [""], activeTabIdx: 0,
     ytPlayer: null, musicProgressTimer: null
   };
 
-  // [순서 교정 2] 파이어베이스 연결 설정 및 엔진 초기화
+  // 3. 구글 파이어베이스 실시간 데이터베이스 연결 설정
   var firebaseConfig = {
     apiKey: "AIzaSyDkh0DYjhbCzBjFo0h62DgMxfFGiJQOUXQ",
     authDomain: "dogout-2f613.firebaseapp.com",
@@ -542,18 +543,19 @@ body {
     measurementId: "G-CZ83GH68Q9"
   };
 
+  // 파이어베이스 엔진 초기화
   firebase.initializeApp(firebaseConfig);
   var db = firebase.database();
 
   var activeZIndex = 500;
   function query(s){ return document.querySelector(s); }
 
-  // [중복 제거] 로컬 스토리지가 아닌 파이어베이스에 실시간 저장하는 올바른 단 하나의 함수
+  // 4. [기능 복구] 클라우드 전역 데이터베이스에 데이터를 저장하는 유일한 setStorage 함수
   function setStorage(k, d) {
     db.ref('orange_os_v2/' + k).set(d);
   }
 
-  // [안전 연동] 데이터베이스에서 실시간으로 데이터를 불러와 안전하게 appState에 대입
+  // 5. [실시간 동기화] 데이터베이스에서 데이터를 실시간으로 가져와 화면에 뿌려주는 핵심 로직
   db.ref('orange_os_v2/masterFileDB').on('value', function(snapshot) {
     var data = snapshot.val();
     if (data) {
@@ -562,12 +564,15 @@ body {
       appState.fileDB = DEFAULT_BLANK_DB;
     }
     
-    // 데이터 동기화 완료 후 안전하게 화면 새로고침 작동
+    // 데이터 로드가 감지되면 멈춰있던 화면 UI 기능들을 실시간으로 깨워줍니다.
     if (typeof renderFinderGrid === 'function') {
       renderFinderGrid();
     }
     if (typeof updateDDayWidget === 'function') {
       updateDDayWidget();
+    }
+    if (typeof updateMusicPlayerUI === 'function') {
+      updateMusicPlayerUI();
     }
   });
   var PATH_MAP = {

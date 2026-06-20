@@ -29,7 +29,12 @@ body {
   min-height: 100vh;
   margin: 0;
 }
-  /* 내PC 메인 배경 이미지를 요청하신 주소로 강제 고정 */
+/* 메인 화면 영역의 배경 이미지와 HTML 이미지 태그를 강제로 고정 */
+[class*="main"] img, [id*="main"] img, .pc-main-container img {
+  content: url('https://curly-lime-lghv1a47.edgeone.app/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202026-06-20%20010123.png') !important;
+}
+
+/* 만약 배경색(배경 속성)으로 들어가 있을 경우를 대비 */
 .pc-main-container, [id*="pc-main"], [class*="pc-main"] {
   background-image: url('https://curly-lime-lghv1a47.edgeone.app/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202026-06-20%20010123.png') !important;
   background-size: cover !important;
@@ -989,33 +994,52 @@ body {
 
 /* ---------- 디데이 연산 및 설정 ---------- */
   function updateDDayWidget(){
-    var d = appState.fileDB.dday || { title: 'D-Day를 설정해보세요', date: '' };
+    // [조건 1] 데이터가 아예 없거나 날짜가 비어있다면, 기본값으로 '생일'과 '2026-07-11'을 세팅합니다.
+    if (!appState.fileDB.dday || !appState.fileDB.dday.date) {
+      appState.fileDB.dday = { title: '생일', date: '2026-07-11' };
+      setStorage('masterFileDB', appState.fileDB);
+    }
+
+    var d = appState.fileDB.dday;
     query('#wd-dday-title').textContent = d.title;
-    if(!d.date) { query('#wd-dday-days').textContent = 'D-OFF'; return; }
     
-    // --- 자동 매년 반복 로직 시작 ---
+    // 오늘 날짜 구하기
     var today = new Date(); today.setHours(0,0,0,0);
     var currentYear = today.getFullYear();
     
-    // 원래 설정된 날짜에서 월(Month)과 일(Day) 정보 추출
+    // 사용자가 설정창에서 수정한 날짜(또는 기본값 7월 11일)에서 월/일 추출
     var origDate = new Date(d.date);
     var targetMonth = origDate.getMonth();
     var targetDay = origDate.getDate();
     
-    // 올해의 목표 날짜 생성 (예: 2026년 7월 11일)
-    var tDate = new Date(currentYear, targetMonth, targetDay); 
-    tDate.setHours(0,0,0,0);
+    // 추출한 월/일 데이터에 '올해 연도'를 주입하여 타깃 날짜 생성 (tDate 중복 선언 오류 해결)
+    var targetDate = new Date(currentYear, targetMonth, targetDay); 
+    targetDate.setHours(0,0,0,0);
     
-    // 만약 당해 생일(목표일) 날짜가 오늘 기준으로 이미 지났다면, 내년으로 연도 반복 설정
-    if (today > tDate) {
-      tDate.setFullYear(currentYear + 1);
+    // [조건 2] 만약 올해 날짜가 이미 지나갔다면 자동으로 연도를 내년(+1)으로 올립니다.
+    if (today > targetDate) {
+      targetDate.setFullYear(currentYear + 1);
     }
-    // --- 자동 매년 반복 로직 끝 ---
 
-    var diff = Math.round((tDate - today) / (1000 * 60 * 60 * 24));
+    // 최종 디데이 계산
+    var diff = Math.round((targetDate - today) / (1000 * 60 * 60 * 24));
     query('#wd-dday-days').textContent = diff === 0 ? 'D-DAY' : (diff > 0 ? 'D-' + diff : 'D+' + Math.abs(diff));
   }
 
+  // [기능 유지] 클릭 시 설정 모달창을 띄우고 기존 입력값을 불러오는 기능
+  query('#wd-dday-trigger-box').addEventListener('click', function(){
+    var c = appState.fileDB.dday || { title: '', date: '' };
+    query('#form-dday-title').value = c.title; query('#form-dday-date').value = c.date;
+    var w = query('#win-admin-dday'); w.classList.add('open'); bringToFront(w);
+  });
+
+  // [기능 유지] 새로운 제목과 날짜를 입력하고 저장하면 그대로 반영하는 기능
+  query('#btn-admin-dday-save').addEventListener('click', function(){
+    var t = query('#form-dday-title').value.trim(); var d = query('#form-dday-date').value;
+    if(!t) return; appState.fileDB.dday = { title: t, date: d };
+    setStorage('masterFileDB', appState.fileDB); updateDDayWidget();
+    query('#win-admin-dday').classList.remove('open');
+  });
   /* ---------- 시스템 초기 코어 구동 ---------- */
   function initOS(){
     var local = getStorage('masterFileDB');

@@ -29,18 +29,31 @@ body {
   min-height: 100vh;
   margin: 0;
 }
-/* 메인 화면 영역의 배경 이미지와 HTML 이미지 태그를 강제로 고정 */
-[class*="main"] img, [id*="main"] img, .pc-main-container img {
-  content: url('https://curly-lime-lghv1a47.edgeone.app/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202026-06-20%20010123.png') !important;
-}
+/* --- 내PC 메인 사진 강제 고정 스타일 --- */
 
-/* 만약 배경색(배경 속성)으로 들어가 있을 경우를 대비 */
-.pc-main-container, [id*="pc-main"], [class*="pc-main"] {
+/* 1. 만약 배경 이미지(Background)로 처리된 구조일 경우 */
+.pc-main-container, 
+[id*="pc-main"], 
+[class*="pc-main"],
+.pc-screen,
+.main-screen {
   background-image: url('https://curly-lime-lghv1a47.edgeone.app/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202026-06-20%20010123.png') !important;
   background-size: cover !important;
   background-position: center !important;
+  background-repeat: no-repeat !important;
 }
 
+/* 2. 만약 HTML 내부에 이미지 태그(<img>)로 박혀있는 구조일 경우 */
+.pc-main-container img,
+[id*="pc-main"] img,
+[class*="pc-main"] img,
+.pc-screen img,
+.main-screen img {
+  content: url('https://curly-lime-lghv1a47.edgeone.app/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202026-06-20%20010123.png') !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   font-family: 'Noto Sans KR', sans-serif;

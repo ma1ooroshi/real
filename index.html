@@ -22,6 +22,19 @@
   --radius-md: 8px;
   --radius-sm: 4px;
 }
+body {
+  /* 위는 흰색(#ffffff), 아래는 테마에 어울리는 주황색 포인트 컬러로 그라데이션 */
+  background: linear-gradient(to bottom, #ffffff 0%, var(--point-orange-mid) 100%) !important;
+  background-attachment: fixed;
+  min-height: 100vh;
+  margin: 0;
+}
+  /* 내PC 메인 배경 이미지를 요청하신 주소로 강제 고정 */
+.pc-main-container, [id*="pc-main"], [class*="pc-main"] {
+  background-image: url('https://curly-lime-lghv1a47.edgeone.app/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202026-06-20%20010123.png') !important;
+  background-size: cover !important;
+  background-position: center !important;
+}
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -772,15 +785,12 @@ body {
     }, 500);
   }
 
-  function updateMusicCoverUI(){
+ function updateMusicCoverUI(){
     var wrap = query('#music-album-cover-box');
     if(!wrap) return;
-    if(appState.fileDB.musicCoverUrl) {
-      wrap.innerHTML = `<img src="${appState.fileDB.musicCoverUrl}" style="width:100%; height:100%; object-fit:cover;">`;
-      query('#music-art-src-input').value = appState.fileDB.musicCoverUrl;
-    } else {
-      wrap.innerHTML = `<span id="music-default-art-logo" style="font-size:24px;">🎵</span>`;
-    }
+    // 언제나 요청하신 GIF 이미지가 고정되어 출력되도록 설정합니다.
+    wrap.innerHTML = `<img src="https://unconscious-bronze-icsvh0cv.edgeone.app/KakaoTalk_20260620_005824594.gif" style="width:100%; height:100%; object-fit:cover;">`;
+    query('#music-art-src-input').value = "https://unconscious-bronze-icsvh0cv.edgeone.app/KakaoTalk_20260620_005824594.gif";
   }
 
   query('#btn-music-art-save').addEventListener('click', function(){
@@ -977,27 +987,34 @@ body {
     alert("선택하신 글 항목이 완전히 삭제되었습니다.");
   });
 
-  /* ---------- 디데이 연산 및 설정 ---------- */
+/* ---------- 디데이 연산 및 설정 ---------- */
   function updateDDayWidget(){
     var d = appState.fileDB.dday || { title: 'D-Day를 설정해보세요', date: '' };
     query('#wd-dday-title').textContent = d.title;
     if(!d.date) { query('#wd-dday-days').textContent = 'D-OFF'; return; }
-    var tDate = new Date(d.date); tDate.setHours(0,0,0,0);
+    
+    // --- 자동 매년 반복 로직 시작 ---
     var today = new Date(); today.setHours(0,0,0,0);
+    var currentYear = today.getFullYear();
+    
+    // 원래 설정된 날짜에서 월(Month)과 일(Day) 정보 추출
+    var origDate = new Date(d.date);
+    var targetMonth = origDate.getMonth();
+    var targetDay = origDate.getDate();
+    
+    // 올해의 목표 날짜 생성 (예: 2026년 7월 11일)
+    var tDate = new Date(currentYear, targetMonth, targetDay); 
+    tDate.setHours(0,0,0,0);
+    
+    // 만약 당해 생일(목표일) 날짜가 오늘 기준으로 이미 지났다면, 내년으로 연도 반복 설정
+    if (today > tDate) {
+      tDate.setFullYear(currentYear + 1);
+    }
+    // --- 자동 매년 반복 로직 끝 ---
+
     var diff = Math.round((tDate - today) / (1000 * 60 * 60 * 24));
     query('#wd-dday-days').textContent = diff === 0 ? 'D-DAY' : (diff > 0 ? 'D-' + diff : 'D+' + Math.abs(diff));
   }
-  query('#wd-dday-trigger-box').addEventListener('click', function(){
-    var c = appState.fileDB.dday || { title: '', date: '' };
-    query('#form-dday-title').value = c.title; query('#form-dday-date').value = c.date;
-    var w = query('#win-admin-dday'); w.classList.add('open'); bringToFront(w);
-  });
-  query('#btn-admin-dday-save').addEventListener('click', function(){
-    var t = query('#form-dday-title').value.trim(); var d = query('#form-dday-date').value;
-    if(!t) return; appState.fileDB.dday = { title: t, date: d };
-    setStorage('masterFileDB', appState.fileDB); updateDDayWidget();
-    query('#win-admin-dday').classList.remove('open');
-  });
 
   /* ---------- 시스템 초기 코어 구동 ---------- */
   function initOS(){

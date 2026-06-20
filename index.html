@@ -516,45 +516,6 @@ body {
   'use strict';
 
   var ADMIN_PASSWORD = "2598";
-  // 1. 파이어베이스 연결 설정 (구글 파이어베이스 콘솔에서 발급받은 본인 키 값으로 채워 넣으세요)
-var firebaseConfig = {
-  apiKey: "AIzaSyDkh0DYjhbCzBjFo0h62DgMxfFGiJQOUXQ",
-  authDomain: "dogout-2f613.firebaseapp.com",
-  databaseURL: "https://dogout-2f613-default-rtdb.firebaseio.com",
-  projectId: "dogout-2f613",
-  storageBucket: "dogout-2f613.firebasestorage.app",
-  messagingSenderId: "1039585332276",
-  appId: "1:1039585332276:web:7baeba5e97fab2a0204e61",
-  measurementId: "G-CZ83GH68Q9"
-};
-
-// 파이어베이스 초기화
-firebase.initializeApp(firebaseConfig);
-var db = firebase.database();
-
-// 2. 기존 localStorage 저장 함수를 파이어베이스 전용 클라우드 저장으로 대체
-function setStorage(k, d) {
-  db.ref('orange_os_v2/' + k).set(d);
-}
-
-// 3. 페이지 접속 시 외부 데이터베이스에서 실시간으로 방명록 데이터를 불러오는 로직
-db.ref('orange_os_v2/masterFileDB').on('value', function(snapshot) {
-  var data = snapshot.val();
-  if (data) {
-    appState.fileDB = data;
-  } else {
-    appState.fileDB = DEFAULT_BLANK_DB;
-  }
-  
-  // 데이터 동기화 완료 후 화면 새로고침
-  if (typeof renderFinderGrid === 'function') {
-    renderFinderGrid();
-  }
-  if (typeof updateDDayWidget === 'function') {
-    updateDDayWidget();
-  }
-});
-
   var DEFAULT_BLANK_DB = {
     c_sub_diary: [], c_sub_note: [], p_sub_log: [], p_sub_gift: [],
     dday: { title: 'D-Day를 설정해보세요', date: '' },
@@ -569,11 +530,46 @@ db.ref('orange_os_v2/masterFileDB').on('value', function(snapshot) {
     ytPlayer: null, musicProgressTimer: null
   };
 
+  // [순서 교정 2] 파이어베이스 연결 설정 및 엔진 초기화
+  var firebaseConfig = {
+    apiKey: "AIzaSyDkh0DYjhbCzBjFo0h62DgMxfFGiJQOUXQ",
+    authDomain: "dogout-2f613.firebaseapp.com",
+    databaseURL: "https://dogout-2f613-default-rtdb.firebaseio.com",
+    projectId: "dogout-2f613",
+    storageBucket: "dogout-2f613.firebasestorage.app",
+    messagingSenderId: "1039585332276",
+    appId: "1:1039585332276:web:7baeba5e97fab2a0204e61",
+    measurementId: "G-CZ83GH68Q9"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  var db = firebase.database();
+
   var activeZIndex = 500;
   function query(s){ return document.querySelector(s); }
-  function setStorage(k, d){ localStorage.setItem('orange_os_v2_'+k, JSON.stringify(d)); }
-  function getStorage(k){ var r=localStorage.getItem('orange_os_v2_'+k); return r?JSON.parse(r):null; }
 
+  // [중복 제거] 로컬 스토리지가 아닌 파이어베이스에 실시간 저장하는 올바른 단 하나의 함수
+  function setStorage(k, d) {
+    db.ref('orange_os_v2/' + k).set(d);
+  }
+
+  // [안전 연동] 데이터베이스에서 실시간으로 데이터를 불러와 안전하게 appState에 대입
+  db.ref('orange_os_v2/masterFileDB').on('value', function(snapshot) {
+    var data = snapshot.val();
+    if (data) {
+      appState.fileDB = data;
+    } else {
+      appState.fileDB = DEFAULT_BLANK_DB;
+    }
+    
+    // 데이터 동기화 완료 후 안전하게 화면 새로고침 작동
+    if (typeof renderFinderGrid === 'function') {
+      renderFinderGrid();
+    }
+    if (typeof updateDDayWidget === 'function') {
+      updateDDayWidget();
+    }
+  });
   var PATH_MAP = {
     all: '내 PC',
     gb: '내 PC › 방명록',

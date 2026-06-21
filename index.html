@@ -180,12 +180,12 @@ body {
 .notepad-actions { display: flex; gap: 12px; }
 .notepad-action-btn { cursor: pointer; font-weight: 500; }
 
-/* 위젯들을 감싸던 틀의 absolute 고정을 풀고 z-index만 부여합니다 */
+/* 위젯을 묶어두던 틀의 고정을 풀고 z-index만 유지합니다 */
 #widget-area { 
   position: static; 
   z-index: 50; 
 }
-/* 각각의 위젯 카드가 독립적인 창처럼 움직일 수 있도록absolute로 변경하고, 초기 위치를 왼쪽(내 PC 아이콘 옆 등)에 세로로 정렬합니다 */
+/* 위젯 카드가 독립적인 창처럼 움직이도록 absolute로 변경하고 오른쪽에 정렬합니다 */
 .widget-card { 
   position: absolute;
   width: 220px;
@@ -195,14 +195,13 @@ body {
   padding: 14px; 
   border: 2px solid var(--point-orange-mid); 
   box-shadow: 4px 4px 0px rgba(252, 112, 48, 0.1); 
-  cursor: grab; /* 마우스를 올렸을 때 잡을 수 있는 모양으로 변경 */
+  cursor: grab;
 }
-/* 첫 실행 시 위젯 4개가 왼쪽 공간에 겹치지 않고 위에서 아래로 정렬되도록 초기 좌표 세팅 */
-.widget-card:nth-child(1) { top: 24px; left: 130px; }  /* 디데이 */
-.widget-card:nth-child(2) { top: 120px; left: 130px; } /* 타이머 */
-.widget-card:nth-child(3) { top: 320px; left: 130px; } /* 음악플레이어 */
-.widget-card:nth-child(4) { top: 620px; left: 130px; } /* 할일 */
-
+/* 첫 실행 시 화면 오른쪽(right: 24px) 기준으로 위에서 아래로 정렬되는 좌표값입니다 */
+.widget-card:nth-child(1) { top: 24px; right: 24px; }   /* 디데이 위젯 */
+.widget-card:nth-child(2) { top: 120px; right: 24px; }  /* 타이머 위젯 */
+.widget-card:nth-child(3) { top: 320px; right: 24px; }  /* 뮤직 플레이어 */
+.widget-card:nth-child(4) { top: 620px; right: 24px; }  /* 할 일 목록 */
 
 
 .dday-display-banner { background: var(--point-orange-mid); border-radius: var(--radius-md); padding: 14px; color: #ffffff; text-align: center; cursor: pointer; }
@@ -669,17 +668,17 @@ function loopSnowAnimation() {
 requestAnimationFrame(loopSnowAnimation);
 
 // ==========================================================================
-// 4. 창 제어 시스템 (드래그앤드롭, Z-Index, 최소/최대화)
+// 4. 창 제어 시스템 (드래그앤드롭, Z-Index, 최소/최대화) 및 위젯 드래그 추가
 // ==========================================================================
 let topZIndex = 100;
 const openedWindowIds = new Set();
 
 function makeWindowDraggable(winEl) {
-  // 헤더(.win-header)가 있으면 헤더를 잡고 움직이고, 없으면 카드(.widget-card) 자체를 잡고 움직이도록 설정
+  // 헤더가 있으면 헤더를 잡고, 없으면 위젯 카드 자체를 잡고 드래그하도록 설정
   const dragHandle = winEl.querySelector(".win-header") || winEl;
   
   dragHandle.onmousedown = function(e) {
-    // 버튼, 인풋창, 텍스트에어리어, 체크박스 등을 클릭했을 때는 드래그 기능이 동작하지 않도록 방어막 형성
+    // 인풋창, 버튼, 텍스트 입력 칸, 체크박스 등을 조작할 때는 드래그가 발동하지 않도록 방어
     if (e.target.classList.contains("mac-btn") || 
         e.target.tagName === "INPUT" || 
         e.target.tagName === "TEXTAREA" || 
@@ -695,6 +694,8 @@ function makeWindowDraggable(winEl) {
     let shiftY = e.clientY - winEl.getBoundingClientRect().top;
     
     function moveAt(clientX, clientY) {
+      // 드래그 시 right 고정을 풀고 left와 top으로 좌표를 재계산해야 정상 작동합니다
+      winEl.style.right = 'auto';
       winEl.style.left = (clientX - shiftX) + 'px';
       winEl.style.top = (clientY - shiftY) + 'px';
     }
@@ -712,7 +713,7 @@ function makeWindowDraggable(winEl) {
   };
 }
 
-// 기존 일반 창(.window) 드래그 등록
+// 1) 내 PC, 내 문서, 휴지통 등 일반 폴더 창들 드래그 등록
 document.querySelectorAll(".window").forEach(win => {
   makeWindowDraggable(win);
   win.addEventListener("mousedown", () => {
@@ -721,7 +722,7 @@ document.querySelectorAll(".window").forEach(win => {
   });
 });
 
-// [추가] 우측에 있던 위젯 카드(.widget-card)들도 전부 드래그 가능하도록 등록
+// 2) [추가] 우측의 위젯 카드들도 개별적으로 드래그 가능하도록 등록
 document.querySelectorAll(".widget-card").forEach(widget => {
   makeWindowDraggable(widget);
   widget.addEventListener("mousedown", () => {
@@ -730,7 +731,65 @@ document.querySelectorAll(".widget-card").forEach(widget => {
   });
 });
 
+function openTargetWindow(id) {
+  const win = document.getElementById(id);
+  if (!win) return;
+  topZIndex++;
+  win.style.zIndex = topZIndex;
+  win.classList.add("open");
+  win.classList.remove("minimized");
+  openedWindowIds.add(id);
+}
 
+function closeTargetWindow(id) {
+  const win = document.getElementById(id);
+  if (win) win.classList.remove("open");
+  openedWindowIds.delete(id);
+}
+
+function minimizeTargetWindow(id) {
+  const win = document.getElementById(id);
+  if (win) win.classList.add("minimized");
+}
+
+function toggleMaximizeWindow(id) {
+  const win = document.getElementById(id);
+  if (!win) return;
+  if (win.style.width === "100vw" && win.style.height === "100vh") {
+    win.style.width = win.dataset.prevWidth || "500px";
+    win.style.height = win.dataset.prevHeight || "400px";
+    win.style.left = win.dataset.prevLeft || "100px";
+    win.style.top = win.dataset.prevTop || "100px";
+  } else {
+    win.dataset.prevWidth = win.style.width;
+    win.dataset.prevHeight = win.style.height;
+    win.dataset.prevLeft = win.style.left;
+    win.dataset.prevTop = win.style.top;
+    win.style.width = "100vw";
+    win.style.height = "100vh";
+    win.style.left = "0px";
+    win.style.top = "0px";
+  }
+}
+
+document.querySelectorAll("[data-openwin]").forEach(el => {
+  el.addEventListener("click", () => {
+    openTargetWindow(el.dataset.openwin);
+    document.getElementById("start-menu-window").style.display = "none";
+  });
+});
+
+document.querySelectorAll(".mac-close").forEach(b => {
+  b.addEventListener("click", () => closeTargetWindow(b.dataset.winid));
+});
+document.querySelectorAll(".mac-min").forEach(b => {
+  b.addEventListener("click", () => minimizeTargetWindow(b.dataset.winid));
+});
+document.querySelectorAll(".mac-max").forEach(b => {
+  b.addEventListener("click", () => toggleMaximizeWindow(b.dataset.winid));
+});
+
+  
 function openTargetWindow(id) {
   const win = document.getElementById(id);
   if (!win) return;

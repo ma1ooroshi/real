@@ -77,10 +77,13 @@ body {
 }
 .window.open { display: flex; }
 .window.minimized { transform: scale(0.05) translateY(500px); opacity: 0; pointer-events: none; }
+/* .win-header 안에 touch-action 추가 */
 .win-header {
   height: 40px; display: flex; align-items: center; padding: 0 16px;
   background: var(--point-orange-light); border-bottom: 2px solid var(--border-light); cursor: grab; position: relative;
+  touch-action: none;
 }
+
 .mac-buttons { display: flex; gap: 6px; position: absolute; left: 16px; }
 .mac-btn { width: 12px; height: 12px; border-radius: 50%; border: 1px solid rgba(252, 112, 48, 0.2); cursor: pointer; }
 .mac-close { background: #ff7640; }
@@ -186,6 +189,7 @@ body {
   z-index: 50; 
 }
 /* 위젯 카드가 독립적인 창처럼 움직이도록 absolute로 변경하고 오른쪽에 정렬합니다 */
+/* .widget-card 안에도 touch-action 추가 */
 .widget-card { 
   position: absolute;
   width: 220px;
@@ -196,6 +200,7 @@ body {
   border: 2px solid var(--point-orange-mid); 
   box-shadow: 4px 4px 0px rgba(252, 112, 48, 0.1); 
   cursor: grab;
+  touch-action: none;
 }
 
 /* 변경 — 한 줄로 교체 (정확한 위치는 JS가 계산) */
@@ -670,12 +675,11 @@ requestAnimationFrame(loopSnowAnimation);
 let topZIndex = 100;
 const openedWindowIds = new Set();
 
+// 변경 (마우스 + 터치 둘 다 지원)
 function makeWindowDraggable(winEl) {
-  // 헤더가 있으면 헤더를 잡고, 없으면 위젯 카드 자체를 잡고 드래그하도록 설정
   const dragHandle = winEl.querySelector(".win-header") || winEl;
   
-  dragHandle.onmousedown = function(e) {
-    // 인풋창, 버튼, 텍스트 입력 칸, 체크박스 등을 조작할 때는 드래그가 발동하지 않도록 방어
+  dragHandle.addEventListener('pointerdown', function(e) {
     if (e.target.classList.contains("mac-btn") || 
         e.target.tagName === "INPUT" || 
         e.target.tagName === "TEXTAREA" || 
@@ -683,32 +687,28 @@ function makeWindowDraggable(winEl) {
         e.target.tagName === "SELECT" ||
         e.target.classList.contains("music-btn-icon") ||
         e.target.classList.contains("todo-del-btn")) return;
-        
+
     topZIndex++;
     winEl.style.zIndex = topZIndex;
-    
+
     let shiftX = e.clientX - winEl.getBoundingClientRect().left;
     let shiftY = e.clientY - winEl.getBoundingClientRect().top;
-    
-    function moveAt(clientX, clientY) {
-      // 드래그 시 right 고정을 풀고 left와 top으로 좌표를 재계산해야 정상 작동합니다
+
+    function onPointerMove(event) {
       winEl.style.right = 'auto';
-      winEl.style.left = (clientX - shiftX) + 'px';
-      winEl.style.top = (clientY - shiftY) + 'px';
+      winEl.style.left = (event.clientX - shiftX) + 'px';
+      winEl.style.top = (event.clientY - shiftY) + 'px';
     }
-    
-    function onMouseMove(event) {
-      moveAt(event.clientX, event.clientY);
+    function onPointerUp() {
+      document.removeEventListener('pointermove', onPointerMove);
+      document.removeEventListener('pointerup', onPointerUp);
     }
-    
-    document.addEventListener('mousemove', onMouseMove);
-    
-    document.onmouseup = function() {
-      document.removeEventListener('mousemove', onMouseMove);
-      document.onmouseup = null;
-    };
-  };
+
+    document.addEventListener('pointermove', onPointerMove);
+    document.addEventListener('pointerup', onPointerUp);
+  });
 }
+
 
 // 1) 내 PC, 내 문서, 휴지통 등 일반 폴더 창들 드래그 등록
 document.querySelectorAll(".window").forEach(win => {

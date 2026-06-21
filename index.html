@@ -197,12 +197,9 @@ body {
   box-shadow: 4px 4px 0px rgba(252, 112, 48, 0.1); 
   cursor: grab;
 }
-/* 첫 실행 시 화면 오른쪽(right: 24px) 기준으로 위에서 아래로 정렬되는 좌표값입니다 */
-.widget-card:nth-child(1) { top: 24px; right: 24px; }   /* 디데이 위젯 */
-.widget-card:nth-child(2) { top: 120px; right: 24px; }  /* 타이머 위젯 */
-.widget-card:nth-child(3) { top: 320px; right: 24px; }  /* 뮤직 플레이어 */
-.widget-card:nth-child(4) { top: 620px; right: 24px; }  /* 할 일 목록 */
 
+/* 변경 — 한 줄로 교체 (정확한 위치는 JS가 계산) */
+.widget-card { top: 24px; right: 24px; }
 
 .dday-display-banner { background: var(--point-orange-mid); border-radius: var(--radius-md); padding: 14px; color: #ffffff; text-align: center; cursor: pointer; }
 .dday-counter-big { font-size: 26px; font-weight: 700; }
@@ -730,6 +727,19 @@ document.querySelectorAll(".widget-card").forEach(widget => {
     widget.style.zIndex = topZIndex;
   });
 });
+
+// 위젯 실제 높이를 측정해서 겹치지 않게 세로로 자동 배치
+function layoutWidgetsInitial() {
+  const startTop = 24;
+  const gap = 12;
+  let cursorTop = startTop;
+  document.querySelectorAll('.widget-card').forEach(card => {
+    card.style.top = cursorTop + 'px';
+    cursorTop += card.offsetHeight + gap;
+  });
+}
+window.addEventListener('load', layoutWidgetsInitial);
+
 
 function openTargetWindow(id) {
   const win = document.getElementById(id);

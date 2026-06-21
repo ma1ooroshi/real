@@ -180,8 +180,30 @@ body {
 .notepad-actions { display: flex; gap: 12px; }
 .notepad-action-btn { cursor: pointer; font-weight: 500; }
 
-#widget-area { position: absolute; top: 24px; right: 24px; width: 220px; display: flex; flex-direction: column; gap: 12px; z-index: 50; }
-.widget-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px); border-radius: var(--radius-lg); padding: 14px; border: 2px solid var(--point-orange-mid); box-shadow: 4px 4px 0px rgba(252, 112, 48, 0.1); }
+/* 위젯들을 감싸던 틀의 absolute 고정을 풀고 z-index만 부여합니다 */
+#widget-area { 
+  position: static; 
+  z-index: 50; 
+}
+/* 각각의 위젯 카드가 독립적인 창처럼 움직일 수 있도록absolute로 변경하고, 초기 위치를 왼쪽(내 PC 아이콘 옆 등)에 세로로 정렬합니다 */
+.widget-card { 
+  position: absolute;
+  width: 220px;
+  background: rgba(255, 255, 255, 0.9); 
+  backdrop-filter: blur(15px); 
+  border-radius: var(--radius-lg); 
+  padding: 14px; 
+  border: 2px solid var(--point-orange-mid); 
+  box-shadow: 4px 4px 0px rgba(252, 112, 48, 0.1); 
+  cursor: grab; /* 마우스를 올렸을 때 잡을 수 있는 모양으로 변경 */
+}
+/* 첫 실행 시 위젯 4개가 왼쪽 공간에 겹치지 않고 위에서 아래로 정렬되도록 초기 좌표 세팅 */
+.widget-card:nth-child(1) { top: 24px; left: 130px; }  /* 디데이 */
+.widget-card:nth-child(2) { top: 120px; left: 130px; } /* 타이머 */
+.widget-card:nth-child(3) { top: 320px; left: 130px; } /* 음악플레이어 */
+.widget-card:nth-child(4) { top: 620px; left: 130px; } /* 할일 */
+
+
 
 .dday-display-banner { background: var(--point-orange-mid); border-radius: var(--radius-md); padding: 14px; color: #ffffff; text-align: center; cursor: pointer; }
 .dday-counter-big { font-size: 26px; font-weight: 700; }
@@ -653,11 +675,19 @@ let topZIndex = 100;
 const openedWindowIds = new Set();
 
 function makeWindowDraggable(winEl) {
-  const header = winEl.querySelector(".win-header");
-  if (!header) return;
+  // 헤더(.win-header)가 있으면 헤더를 잡고 움직이고, 없으면 카드(.widget-card) 자체를 잡고 움직이도록 설정
+  const dragHandle = winEl.querySelector(".win-header") || winEl;
   
-  header.onmousedown = function(e) {
-    if (e.target.classList.contains("mac-btn")) return;
+  dragHandle.onmousedown = function(e) {
+    // 버튼, 인풋창, 텍스트에어리어, 체크박스 등을 클릭했을 때는 드래그 기능이 동작하지 않도록 방어막 형성
+    if (e.target.classList.contains("mac-btn") || 
+        e.target.tagName === "INPUT" || 
+        e.target.tagName === "TEXTAREA" || 
+        e.target.tagName === "BUTTON" || 
+        e.target.tagName === "SELECT" ||
+        e.target.classList.contains("music-btn-icon") ||
+        e.target.classList.contains("todo-del-btn")) return;
+        
     topZIndex++;
     winEl.style.zIndex = topZIndex;
     
@@ -682,6 +712,7 @@ function makeWindowDraggable(winEl) {
   };
 }
 
+// 기존 일반 창(.window) 드래그 등록
 document.querySelectorAll(".window").forEach(win => {
   makeWindowDraggable(win);
   win.addEventListener("mousedown", () => {
@@ -689,6 +720,16 @@ document.querySelectorAll(".window").forEach(win => {
     win.style.zIndex = topZIndex;
   });
 });
+
+// [추가] 우측에 있던 위젯 카드(.widget-card)들도 전부 드래그 가능하도록 등록
+document.querySelectorAll(".widget-card").forEach(widget => {
+  makeWindowDraggable(widget);
+  widget.addEventListener("mousedown", () => {
+    topZIndex++;
+    widget.style.zIndex = topZIndex;
+  });
+});
+
 
 function openTargetWindow(id) {
   const win = document.getElementById(id);
